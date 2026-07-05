@@ -29,6 +29,10 @@ body{
   font-family:'Instrument Sans',system-ui,sans-serif;
   font-size:15px; line-height:1.45;
   min-height:100dvh;
+  background-image:
+    radial-gradient(60% 40% at 50% 0%, rgba(255,106,61,.07), transparent 70%),
+    radial-gradient(50% 35% at 85% 100%, rgba(43,75,200,.06), transparent 70%);
+  background-attachment:fixed;
 }
 .wrap{max-width:440px; margin:0 auto; padding:20px 16px 56px}
 
@@ -96,9 +100,10 @@ h1 em{font-style:normal; color:var(--neo)}
   font-family:inherit;
 }
 .chip .em{font-size:15px}
-.chip[aria-pressed="true"]{border-color:var(--txt); background:var(--panel2)}
+.chip[aria-pressed="true"]{border-color:var(--neo); background:var(--panel2); box-shadow:0 0 0 1px var(--neo) inset}
 .chip:active{transform:scale(.97)}
-.chips.landmark .chip{border-color:#33406e}
+.chips.landmark .chip{border-color:#4a3f22}
+.chips.landmark .chip[aria-pressed="true"]{border-color:#e8c877; box-shadow:0 0 0 1px #e8c877 inset}
 
 .mem-label{display:flex; align-items:center; gap:8px}
 .mem-clear{
@@ -250,7 +255,7 @@ h1 em{font-style:normal; color:var(--neo)}
 .winner-val{flex:1; min-width:150px}
 .back-amt{
   font-family:'JetBrains Mono',monospace; font-weight:700;
-  font-size:32px; line-height:1;
+  font-size:42px; line-height:1; letter-spacing:-1px;
 }
 .back-amt small{font-size:14px; color:var(--dim); font-weight:500}
 .why{color:var(--dim); font-size:13.5px; margin-top:7px}
@@ -377,7 +382,7 @@ button:focus-visible,#q:focus-visible,.preset:focus-visible,.chip:focus-visible{
 </div>
 <div class="chips" id="chips-recent"></div>
 
-<div class="group-label">Landmark stores</div>
+<div class="group-label" style="color:#b99b4f">Landmark stores &middot; 3.75% zone</div>
 <div class="chips landmark" id="chips-landmark"></div>
 
 <div class="group-label">Everywhere else</div>
@@ -600,6 +605,8 @@ function render(){
   $('r-name').textContent = w.card.name;
   $('r-ptinfo').textContent = w.card.ptInfo;
   $('r-val').textContent = fmt(w.total);
+  // Tint the big ₹ figure toward the winning card's color (kept light for contrast)
+  $('r-val').parentElement.style.color = 'color-mix(in srgb, ' + w.card.color + ' 45%, #ffffff)';
   $('r-why').textContent = reasonFor(w, cat.id);
 
   const lp = $('logPicker');
