@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Kaunsa Card?</title>
+<title>RewardIQ</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d0e12">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Kaunsa">
+<meta name="apple-mobile-web-app-title" content="RewardIQ">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -351,6 +351,20 @@ footer b{color:var(--dim)}
 .metals-strip .m-item b{color:var(--txt); font-size:13.5px}
 .metals-strip .m-lbl{color:var(--faint); font-size:11px; text-transform:uppercase; letter-spacing:.4px}
 .metals-strip .m-as{margin-left:auto; color:var(--faint); font-size:11px}
+.metals-strip .m-gold .m-lbl{color:#b99b4f}
+.metals-strip .m-gold b{color:#e8c877}
+.metals-strip .m-silver .m-lbl{color:#8d93a5}
+.metals-strip .m-silver b{color:#d9dde8}
+@keyframes glowGold{
+  0%,100%{text-shadow:0 0 3px rgba(232,200,119,.25)}
+  50%{text-shadow:0 0 10px rgba(232,200,119,.85), 0 0 22px rgba(232,200,119,.35)}
+}
+@keyframes glowSilver{
+  0%,100%{text-shadow:0 0 3px rgba(217,221,232,.25)}
+  50%{text-shadow:0 0 10px rgba(217,221,232,.8), 0 0 22px rgba(217,221,232,.3)}
+}
+.metals-strip .m-glow-gold b{animation:glowGold 2.4s ease-in-out infinite}
+.metals-strip .m-glow-silver b{animation:glowSilver 2.4s ease-in-out infinite}
 button:focus-visible,#q:focus-visible,.preset:focus-visible,.chip:focus-visible{
   outline:2px solid var(--txt); outline-offset:2px;
 }
@@ -366,14 +380,15 @@ button:focus-visible,#q:focus-visible,.preset:focus-visible,.chip:focus-visible{
 <div class="wrap">
 
 <header>
-  <h1>Kaunsa <em>Card?</em></h1>
+  <h1>Reward<em>IQ</em></h1>
   <p class="tagline">Type any store or brand. Swipe the winner.</p>
 </header>
 
 <div class="metals-strip" id="metals" title="Best-effort Bengaluru rates via AI &mdash; verify before big buys">
-  <span class="m-item"><span class="m-lbl">Gold 24K</span> <b>&#8377;<span id="m-gold24">&hellip;</span></b>/g</span>
-  <span class="m-item"><span class="m-lbl">Gold 22K</span> <b>&#8377;<span id="m-gold22">&hellip;</span></b>/g</span>
-  <span class="m-item"><span class="m-lbl">Silver</span> <b>&#8377;<span id="m-silver">&hellip;</span></b>/g</span>
+  <span class="m-item m-gold"><span class="m-lbl">Gold 24K</span> <b>&#8377;<span id="m-gold24">&hellip;</span></b>/g</span>
+  <span class="m-item m-gold m-glow-gold"><span class="m-lbl">Gold 22K</span> <b>&#8377;<span id="m-gold22">&hellip;</span></b>/g</span>
+  <span class="m-item m-silver"><span class="m-lbl">Silver</span> <b>&#8377;<span id="m-silver">&hellip;</span></b>/g</span>
+  <span class="m-item m-silver m-glow-silver"><span class="m-lbl">Silver</span> <b>&#8377;<span id="m-silverkg">&hellip;</span></b>/kg</span>
   <span class="m-as" id="m-as"></span>
 </div>
 
@@ -1089,6 +1104,7 @@ async function loadMetals(){
     $('m-gold24').textContent = d.gold24.toLocaleString('en-IN');
     $('m-gold22').textContent = d.gold22.toLocaleString('en-IN');
     $('m-silver').textContent = d.silver.toLocaleString('en-IN');
+    $('m-silverkg').textContent = Math.round(d.silver * 1000).toLocaleString('en-IN');
     $('m-as').textContent = d.city + ' \u00b7 ' + (d.asOf || 'today');
     $('metals').classList.add('show');
   } catch(_){ /* keep hidden */ }
