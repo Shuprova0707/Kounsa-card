@@ -92,6 +92,31 @@ h1 em{font-style:normal; color:var(--neo)}
 .chip:active{transform:scale(.97)}
 .chips.landmark .chip{border-color:#33406e}
 
+.mem-label{display:flex; align-items:center; gap:8px}
+.mem-clear{
+  background:none; border:none; color:var(--faint); font-family:inherit;
+  font-size:11px; letter-spacing:.06em; text-transform:uppercase; cursor:pointer;
+  padding:0; text-decoration:underline; text-underline-offset:2px;
+}
+.mem-clear:hover{color:var(--dim)}
+.memchip{
+  display:inline-flex; align-items:center;
+  background:var(--panel); border:1px solid var(--line); border-radius:999px; overflow:hidden;
+}
+.memchip .mc-go{
+  display:flex; align-items:center; gap:7px;
+  background:none; border:none; color:var(--txt);
+  padding:9px 5px 9px 14px; font-family:inherit; font-size:14px; cursor:pointer;
+}
+.memchip .mc-go .em{font-size:15px}
+.memchip .mc-go:active{transform:scale(.97)}
+.memchip .mc-star{
+  background:none; border:none; color:var(--faint); cursor:pointer;
+  padding:9px 12px 9px 3px; font-size:15px; line-height:1;
+}
+.memchip .mc-star.on{color:#e8c877}
+.chips-fav .memchip{border-color:#4a3f22}
+
 #result{margin-top:26px; display:none}
 #result.show{display:block}
 .result-head{
@@ -253,6 +278,14 @@ button:focus-visible,#q:focus-visible,.preset:focus-visible,.chip:focus-visible{
   <input id="q" type="search" placeholder="levis, zomato, petrol, movie&hellip;" autocomplete="off" aria-label="Search store, brand or category">
   <div class="suggest" id="suggest" role="listbox"></div>
 </div>
+
+<div class="group-label" id="fav-label" style="display:none">Favorites</div>
+<div class="chips chips-fav" id="chips-fav"></div>
+
+<div class="group-label mem-label" id="recent-label" style="display:none">
+  Recent <button type="button" class="mem-clear" id="clearRecent">clear</button>
+</div>
+<div class="chips" id="chips-recent"></div>
 
 <div class="group-label">Landmark stores</div>
 <div class="chips landmark" id="chips-landmark"></div>
@@ -509,7 +542,65 @@ function pick(catId, brand){
   currentBrand = brand || null;
   document.querySelectorAll('.chip').forEach(ch =>
     ch.setAttribute('aria-pressed', (!brand && ch.dataset.cat === catId) ? 'true' : 'false'));
+  recordRecent(catId, brand);
   render();
+}
+
+/* ============ RECENTS & FAVORITES (localStorage) ============ */
+const LS_RECENT = 'kc_recent', LS_FAVS = 'kc_favs', RECENT_MAX = 6;
+function lsGet(k){ try { return JSON.parse(localStorage.getItem(k)) || []; } catch(_){ return []; } }
+function lsSet(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(_){} }
+function memSig(it){ return it.brand ? 'b:' + it.brand.n.toLowerCase() : 'c:' + it.cat; }
+function memLabel(it){
+  const cat = CATS.find(c => c.id === it.cat);
+  return {
+    em: it.brand ? '\u{1F3F7}\uFE0F' : (cat ? cat.em : '\u{1F4B3}'),
+    text: it.brand ? it.brand.n : (cat ? cat.label : it.cat)
+  };
+}
+function isFav(it){ const s = memSig(it); return lsGet(LS_FAVS).some(f => memSig(f) === s); }
+
+function recordRecent(catId, brand){
+  const it = {cat: catId, brand: brand || null};
+  const sig = memSig(it);
+  const list = lsGet(LS_RECENT).filter(x => memSig(x) !== sig);
+  list.unshift(it);
+  lsSet(LS_RECENT, list.slice(0, RECENT_MAX));
+  renderMem();
+}
+function toggleFav(it){
+  const sig = memSig(it);
+  let favs = lsGet(LS_FAVS);
+  if (favs.some(f => memSig(f) === sig)) favs = favs.filter(f => memSig(f) !== sig);
+  else favs.unshift(it);
+  lsSet(LS_FAVS, favs);
+  renderMem();
+}
+function memChip(it, container){
+  const info = memLabel(it), fav = isFav(it);
+  const wrap = document.createElement('span'); wrap.className = 'memchip';
+  const go = document.createElement('button');
+  go.type = 'button'; go.className = 'mc-go';
+  go.innerHTML = '<span class="em">' + info.em + '</span>' + info.text;
+  go.addEventListener('click', () => pick(it.cat, it.brand));
+  const star = document.createElement('button');
+  star.type = 'button'; star.className = 'mc-star' + (fav ? ' on' : '');
+  star.setAttribute('aria-label', fav ? 'Remove from favorites' : 'Add to favorites');
+  star.textContent = fav ? '\u2605' : '\u2606';
+  star.addEventListener('click', e => { e.stopPropagation(); toggleFav(it); });
+  wrap.appendChild(go); wrap.appendChild(star);
+  container.appendChild(wrap);
+}
+function renderMem(){
+  const favs = lsGet(LS_FAVS);
+  const favSigs = favs.map(memSig);
+  const recents = lsGet(LS_RECENT).filter(r => !favSigs.includes(memSig(r)));
+  const favWrap = $('chips-fav'), recWrap = $('chips-recent');
+  favWrap.innerHTML = ''; recWrap.innerHTML = '';
+  favs.forEach(it => memChip(it, favWrap));
+  recents.forEach(it => memChip(it, recWrap));
+  $('fav-label').style.display = favs.length ? '' : 'none';
+  $('recent-label').style.display = recents.length ? '' : 'none';
 }
 
 /* ============ CHIPS ============ */
@@ -674,6 +765,7 @@ $('amount').addEventListener('input', render);
 document.querySelectorAll('.preset').forEach(p =>
   p.addEventListener('click', () => { $('amount').value = p.dataset.amt; render(); }));
 $('sparkBoost').addEventListener('change', e => { sparkBoost = e.target.checked; render(); });
+$('clearRecent').addEventListener('click', () => { lsSet(LS_RECENT, []); renderMem(); });
 if (location.protocol === 'file:') {
   $('refreshThinkBtn').style.display = 'none';
   $('refreshFastBtn').style.display = 'none';
@@ -685,6 +777,7 @@ if (location.protocol === 'file:') {
 applyData(FALLBACK, {brands: []});
 buildChips();
 buildSearch();
+renderMem();
 loadData();
 loadMetals();
 </script>
