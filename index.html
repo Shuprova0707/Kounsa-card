@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kaunsa Card?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0e12; --panel:#15171e; --panel2:#1b1e27; --line:#262a36;
+  --txt:#eef0f6; --dim:#9aa0b4; --faint:#6b7086;
+  --sbi:#2b4bc8; --myzone:#97144d; --neo:#ff6a3d; --spark:#d42128;
+  --radius:14px;
+}
+*{box-sizing:border-box; margin:0; padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg); color:var(--txt);
+  font-family:'Instrument Sans',system-ui,sans-serif;
+  font-size:15px; line-height:1.45;
+  min-height:100dvh;
+}
+.wrap{max-width:440px; margin:0 auto; padding:20px 16px 56px}
+
+header{margin:6px 0 18px}
+h1{
+  font-family:'Bricolage Grotesque',sans-serif; font-weight:800;
+  font-size:34px; line-height:1.05; letter-spacing:-.5px;
+}
+h1 em{font-style:normal; color:var(--neo)}
+.tagline{color:var(--dim); margin-top:6px; font-size:14px}
+
+.amount-row{display:flex; align-items:center; gap:8px; margin-bottom:14px; flex-wrap:wrap}
+.amount-field{
+  display:flex; align-items:center; gap:4px;
+  background:var(--panel); border:1px solid var(--line); border-radius:12px;
+  padding:8px 12px;
+}
+.amount-field span{font-family:'JetBrains Mono',monospace; color:var(--dim)}
+#amount{
+  width:84px; background:none; border:none; color:var(--txt); outline:none;
+  font-family:'JetBrains Mono',monospace; font-size:17px; font-weight:700;
+}
+.preset{
+  background:var(--panel); border:1px solid var(--line); border-radius:999px;
+  color:var(--dim); padding:7px 12px; font-size:13px; cursor:pointer;
+  font-family:inherit;
+}
+.preset:active{transform:scale(.96)}
+.amount-hint{width:100%; color:var(--faint); font-size:12px}
+
+.searchbox{position:relative; margin-bottom:16px}
+#q{
+  width:100%; background:var(--panel2); border:1.5px solid var(--line);
+  border-radius:var(--radius); padding:14px 16px; color:var(--txt);
+  font-family:inherit; font-size:16px; outline:none;
+}
+#q::placeholder{color:var(--faint)}
+#q:focus{border-color:var(--dim)}
+.suggest{
+  position:absolute; top:calc(100% + 6px); left:0; right:0; z-index:20;
+  background:var(--panel2); border:1px solid var(--line); border-radius:12px;
+  overflow:hidden; display:none;
+}
+.suggest.open{display:block}
+.suggest button{
+  display:flex; align-items:center; gap:10px; width:100%; text-align:left;
+  background:none; border:none; border-bottom:1px solid var(--line);
+  color:var(--txt); padding:12px 14px; font-family:inherit; font-size:15px; cursor:pointer;
+}
+.suggest button:last-child{border-bottom:none}
+.suggest button:hover,.suggest button:focus-visible{background:var(--panel)}
+.suggest .hint{margin-left:auto; color:var(--faint); font-size:12px; white-space:nowrap}
+.suggest .live{color:var(--neo)}
+.suggest button:disabled{color:var(--faint); cursor:wait}
+
+.group-label{
+  font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--faint); margin:14px 2px 8px;
+}
+.chips{display:flex; flex-wrap:wrap; gap:8px}
+.chip{
+  display:flex; align-items:center; gap:7px;
+  background:var(--panel); border:1px solid var(--line); border-radius:999px;
+  color:var(--txt); padding:9px 14px; font-size:14px; cursor:pointer;
+  font-family:inherit;
+}
+.chip .em{font-size:15px}
+.chip[aria-pressed="true"]{border-color:var(--txt); background:var(--panel2)}
+.chip:active{transform:scale(.97)}
+.chips.landmark .chip{border-color:#33406e}
+
+#result{margin-top:26px; display:none}
+#result.show{display:block}
+.result-head{
+  font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--faint); margin-bottom:10px;
+}
+.result-head b{color:var(--txt); letter-spacing:0; text-transform:none; font-size:14px}
+
+.winner{
+  background:var(--panel); border:1px solid var(--line); border-radius:18px;
+  padding:16px; display:flex; gap:16px; align-items:center; flex-wrap:wrap;
+}
+.cardviz{
+  width:186px; height:117px; border-radius:12px; flex-shrink:0;
+  padding:12px 14px; position:relative; overflow:hidden;
+  display:flex; flex-direction:column; justify-content:space-between;
+  box-shadow:0 12px 28px rgba(0,0,0,.45);
+}
+.cardviz::after{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(120% 90% at 100% 0%, rgba(255,255,255,.22), transparent 55%);
+}
+.cardviz .bank{font-size:10px; letter-spacing:.12em; text-transform:uppercase; opacity:.85; font-weight:600}
+.cardviz .chipgfx{
+  width:30px; height:22px; border-radius:5px;
+  background:linear-gradient(135deg,#e8c877,#b98d3a);
+  position:relative;
+}
+.cardviz .chipgfx::before{
+  content:""; position:absolute; inset:4px 5px;
+  border:1px solid rgba(60,40,0,.45); border-radius:3px;
+}
+.cardviz .cname{
+  font-family:'Bricolage Grotesque',sans-serif; font-weight:700;
+  font-size:15px; line-height:1.15;
+}
+.cardviz .pts{font-family:'JetBrains Mono',monospace; font-size:10px; opacity:.85}
+@keyframes pull{
+  from{transform:translateY(26px) rotate(-2.5deg); opacity:0}
+  to{transform:translateY(0) rotate(0); opacity:1}
+}
+.winner .cardviz{animation:pull .45s cubic-bezier(.2,.9,.3,1.15) both}
+
+.winner-val{flex:1; min-width:150px}
+.back-amt{
+  font-family:'JetBrains Mono',monospace; font-weight:700;
+  font-size:32px; line-height:1;
+}
+.back-amt small{font-size:14px; color:var(--dim); font-weight:500}
+.why{color:var(--dim); font-size:13.5px; margin-top:7px}
+.codes{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px}
+.code-pill{
+  font-family:'JetBrains Mono',monospace; font-size:11.5px;
+  border:1px dashed var(--dim); border-radius:8px; padding:4px 8px; color:var(--txt);
+}
+.warnline{
+  margin-top:12px; padding:9px 12px; border-radius:10px;
+  background:#241d10; border:1px solid #4a3a17; color:#e6c987; font-size:13px;
+}
+.tipline{
+  margin-top:12px; padding:9px 12px; border-radius:10px;
+  background:#10241a; border:1px solid #1d4a34; color:#8fe0b4; font-size:13px;
+}
+
+.others{margin-top:14px; display:flex; flex-direction:column; gap:8px}
+.other{
+  display:flex; align-items:baseline; gap:10px;
+  background:var(--panel); border:1px solid var(--line); border-radius:12px;
+  padding:11px 13px;
+}
+.dot{width:9px; height:9px; border-radius:50%; flex-shrink:0; align-self:center}
+.other .nm{font-weight:600; font-size:14px; white-space:nowrap}
+.other .rs{color:var(--faint); font-size:12.5px; flex:1; min-width:0}
+.other .val{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:14px; white-space:nowrap}
+.other .locked{display:block; color:#8a7a4d; font-size:11.5px; margin-top:2px}
+
+.sparkrow{
+  margin-top:16px; display:flex; align-items:center; gap:12px;
+  background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:11px 13px;
+}
+.sparkrow .lbl{flex:1; font-size:13.5px; color:var(--dim)}
+.sparkrow .lbl b{color:var(--txt)}
+.switch{position:relative; width:44px; height:25px; flex-shrink:0}
+.switch input{opacity:0; width:100%; height:100%; position:absolute; cursor:pointer; z-index:2}
+.knob{
+  position:absolute; inset:0; background:var(--line); border-radius:999px; transition:background .18s;
+}
+.knob::after{
+  content:""; position:absolute; top:3px; left:3px; width:19px; height:19px;
+  border-radius:50%; background:var(--txt); transition:transform .18s;
+}
+.switch input:checked + .knob{background:var(--spark)}
+.switch input:checked + .knob::after{transform:translateX(19px)}
+.switch input:focus-visible + .knob{outline:2px solid var(--txt); outline-offset:2px}
+
+footer{margin-top:34px; color:var(--faint); font-size:12px; line-height:1.55}
+footer b{color:var(--dim)}
+
+button:focus-visible,#q:focus-visible,.preset:focus-visible,.chip:focus-visible{
+  outline:2px solid var(--txt); outline-offset:2px;
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important; transition:none!important}
+}
+@media (max-width:400px){
+  .winner{flex-direction:column; align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Kaunsa <em>Card?</em></h1>
+  <p class="tagline">Type any store or brand. Swipe the winner.</p>
+</header>
+
+<div class="amount-row">
+  <div class="amount-field"><span>&#8377;</span><input id="amount" type="number" inputmode="numeric" min="50" step="50" value="2000" aria-label="Spend amount in rupees"></div>
+  <button class="preset" data-amt="500">500</button>
+  <button class="preset" data-amt="1000">1k</button>
+  <button class="preset" data-amt="2000">2k</button>
+  <button class="preset" data-amt="5000">5k</button>
+  <div class="amount-hint">Roughly how much you'll spend &mdash; used to work out real &#8377; back.</div>
+</div>
+
+<div class="searchbox">
+  <input id="q" type="search" placeholder="levis, zomato, petrol, movie&hellip;" autocomplete="off" aria-label="Search store, brand or category">
+  <div class="suggest" id="suggest" role="listbox"></div>
+</div>
+
+<div class="group-label">Landmark stores</div>
+<div class="chips landmark" id="chips-landmark"></div>
+
+<div class="group-label">Everywhere else</div>
+<div class="chips" id="chips-rest"></div>
+
+<section id="result" aria-live="polite">
+  <div class="result-head">Best card for <b id="r-cat"></b> &middot; &#8377;<span id="r-amt"></span> spend</div>
+  <div class="winner">
+    <div class="cardviz" id="r-cardviz">
+      <div><div class="bank" id="r-bank"></div></div>
+      <div class="chipgfx"></div>
+      <div>
+        <div class="cname" id="r-name"></div>
+        <div class="pts" id="r-ptinfo"></div>
+      </div>
+    </div>
+    <div class="winner-val">
+      <div class="back-amt">&#8377;<span id="r-val"></span> <small>back</small></div>
+      <div class="why" id="r-why"></div>
+      <div class="codes" id="r-codes"></div>
+    </div>
+  </div>
+  <div id="r-tips"></div>
+  <div id="r-warn"></div>
+  <div class="others" id="r-others"></div>
+  <div class="sparkrow">
+    <div class="lbl">Crossed <b>&#8377;10,000 on DBS Spark</b> this month? Unlocks 5&times; points on it.</div>
+    <label class="switch"><input type="checkbox" id="sparkBoost"><span class="knob"></span></label>
+  </div>
+</section>
+
+<footer>
+  Rates last updated: <b id="lastUpd">&hellip;</b> (auto-refreshed weekly).
+  Assumes <b>Landmark Rewards SBI SELECT</b> and <b>DBS Spark5</b>.
+  Unknown brands are looked up live via AI &mdash; double-check before big spends.
+</footer>
+
+</div>
+
+<script>
+/* ============ CATEGORIES (fixed UI structure) ============ */
+const CATS = [
+  {id:'homecentre', label:'Home Centre', em:'\u{1F6CB}\uFE0F', grp:'lm', al:['home centre','home center','homecenter','homecentre','furniture','sofa']},
+  {id:'lifestyle',  label:'Lifestyle',   em:'\u{1F457}', grp:'lm', al:['lifestyle','life style']},
+  {id:'max',        label:'Max',         em:'\u{1F455}', grp:'lm', al:['max fashion','max']},
+  {id:'spar',       label:'Spar',        em:'\u{1F6D2}', grp:'lm', al:['spar','spar hyper']},
+  {id:'landmarkx',  label:'Landmark store (Baby Shop / EasyBuy)', em:'\u{1F3EC}', hidden:true, al:['baby shop','babyshop','easybuy','easy buy','landmark']},
+  {id:'dining',     label:'Dining out',  em:'\u{1F37D}\uFE0F', al:['dining','restaurant','dinner','lunch','cafe','eat out','eazydiner']},
+  {id:'movies',     label:'Movies',      em:'\u{1F3AC}', al:['movie','movies','cinema','pvr','inox','bookmyshow','district','theatre']},
+  {id:'swiggy',     label:'Swiggy',      em:'\u{1F6F5}', al:['swiggy']},
+  {id:'zomato',     label:'Zomato',      em:'\u{1F355}', al:['zomato']},
+  {id:'myntra',     label:'Myntra',      em:'\u{1F45F}', al:['myntra']},
+  {id:'online',     label:'Online shopping', em:'\u{1F6CD}\uFE0F', al:['online','ecommerce','online shopping']},
+  {id:'grocery',    label:'Groceries (other)', em:'\u{1F966}', al:['grocery','groceries','supermarket','kirana']},
+  {id:'travel',     label:'Flights & hotels', em:'\u2708\uFE0F', al:['travel','flight','flights','hotel','hotels','train']},
+  {id:'intl',       label:'International', em:'\u{1F30D}', al:['international','abroad','forex','foreign','overseas']},
+  {id:'fuel',       label:'Fuel',        em:'\u26FD', al:['fuel','petrol','diesel','pump','gas station']},
+  {id:'utilities',  label:'Utilities & bills', em:'\u{1F4A1}', al:['utility','utilities','electricity','bill','bills','recharge','mobile bill','broadband','dth','water']},
+  {id:'other',      label:'Everything else', em:'\u{1F4B3}', al:['other','general','shop','store','market','mall','anything']}
+];
+const CAT_IDS = CATS.map(c => c.id);
+
+/* ============ FALLBACK DATA (used offline / if fetch fails) ============ */
+const FALLBACK = {"lastUpdated":"2026-07-05 (offline copy)","cards":[
+{"id":"sbi","bank":"SBI Card \u00D7 Landmark","name":"Landmark Rewards SELECT","color":"#2b4bc8","color2":"#16265e","pt":"RP","ptInfo":"1 RP = \u20B90.25","base":0.5,"over":{"homecentre":3.75,"lifestyle":3.75,"max":3.75,"spar":3.75,"landmarkx":3.75,"dining":2.5,"movies":2.5,"intl":2.5,"fuel":0},"why":{"homecentre":"15 RP per \u20B9100 at Landmark stores","lifestyle":"15 RP per \u20B9100 at Landmark stores","max":"15 RP per \u20B9100 at Landmark stores","spar":"15 RP per \u20B9100 at Landmark stores","landmarkx":"15 RP per \u20B9100 at Landmark stores","dining":"10 RP per \u20B9100 on dining","movies":"10 RP per \u20B9100 on movies","intl":"10 RP per \u20B9100 on international spends","fuel":"No points on fuel"},"warn":{"utilities":"Bills usually count as non-retail \u2014 verify the 2 RP/\u20B9100 actually posts on your statement once.","swiggy":"If Swiggy bills under dining, you may get 2.5% instead of 0.5% \u2014 check one statement.","zomato":"If Zomato bills under dining, you may get 2.5% instead of 0.5% \u2014 check one statement."}},
+{"id":"myzone","bank":"Axis Bank","name":"My Zone","color":"#97144d","color2":"#4a0a26","pt":"EDGE","ptInfo":"1 EDGE = \u20B90.20","base":0.4,"over":{"fuel":0,"movies":0,"utilities":0},"why":{"movies":"No points on movies \u2014 but BOGO offer below","utilities":"Utilities, rent, wallet, insurance, education, govt \u2014 all excluded","fuel":"No points \u2014 surcharge waiver only"},"warn":{}},
+{"id":"neo","bank":"Axis Bank","name":"Neo","color":"#ff6a3d","color2":"#7e2c12","pt":"EDGE","ptInfo":"1 EDGE = \u20B90.20","base":0.1,"over":{"fuel":0,"utilities":0},"why":{"utilities":"Utilities, telecom, rent, wallet, insurance, education, govt \u2014 all excluded","fuel":"No points \u2014 surcharge waiver only"},"warn":{}},
+{"id":"spark","bank":"DBS Bank","name":"Spark5","color":"#d42128","color2":"#5e0d10","pt":"CP","ptInfo":"1 CP = \u20B90.20","base":0.2,"over":{"fuel":0},"boostable":true,"why":{"fuel":"No points \u2014 surcharge waiver only"},"warn":{"other":"Spark gives nothing on rent, wallet loads, jewellery, EMI \u2014 those stay at 0."}}],
+"offers":[
+{"card":"myzone","cat":"swiggy","type":"flat","off":120,"min":500,"code":"AXIS120","label":"\u20B9120 off \u00B7 min \u20B9500 \u00B7 2\u00D7/month"},
+{"card":"myzone","cat":"movies","type":"bogo","cap":200,"code":"AXIS200","label":"Buy 1 Get 1 ticket on District \u00B7 up to \u20B9200 \u00B7 1\u00D7/month"},
+{"card":"myzone","cat":"dining","type":"pctcap","pct":15,"cap":500,"min":1500,"label":"15% off up to \u20B9500 at EazyDiner partner restaurants (min \u20B91,500)"},
+{"card":"myzone","cat":"travel","type":"pctcap","pct":7,"cap":2000,"min":0,"label":"Axis Travel EDGE portal: 7% off flights (\u2264\u20B92,000) / 18% hotels (\u2264\u20B94,000) \u00B7 1\u00D7/month"},
+{"card":"myzone","cat":"fuel","type":"waiver","cap":400,"label":"1% fuel surcharge waived \u00B7 \u20B9400\u2013\u20B94,000 txns \u00B7 up to \u20B9400/cycle"},
+{"card":"neo","cat":"zomato","type":"flat","off":120,"min":499,"code":"AXISNEO","label":"\u20B9120 off \u00B7 min \u20B9499 \u00B7 2\u00D7/month"},
+{"card":"neo","cat":"myntra","type":"flat","off":150,"min":999,"label":"\u20B9150 off on select styles \u00B7 min \u20B9999"},
+{"card":"neo","cat":"movies","type":"pctcap","pct":10,"cap":100,"min":0,"label":"10% off on BookMyShow \u00B7 up to \u20B9100/month"},
+{"card":"neo","cat":"dining","type":"pctcap","pct":15,"cap":500,"min":1500,"label":"Dining Delights: 15% off up to \u20B9500 (min \u20B91,500)"},
+{"card":"neo","cat":"travel","type":"pctcap","pct":7,"cap":2000,"min":0,"label":"Axis Travel EDGE portal: 7% off flights (\u2264\u20B92,000) / 18% hotels (\u2264\u20B94,000) \u00B7 1\u00D7/month"},
+{"card":"neo","cat":"fuel","type":"waiver","cap":400,"label":"1% fuel surcharge waived \u00B7 \u20B9400\u2013\u20B94,000 txns \u00B7 up to \u20B9400/month"},
+{"card":"spark","cat":"movies","type":"bogo","cap":200,"label":"Buy 1 Get 1 ticket on BookMyShow \u00B7 up to \u20B9200 \u00B7 1\u00D7/month"},
+{"card":"spark","cat":"fuel","type":"waiver","cap":100,"label":"1% fuel surcharge waived \u00B7 up to \u20B9100"},
+{"card":"sbi","cat":"fuel","type":"waiver","cap":100,"label":"1% fuel surcharge waived \u00B7 up to \u20B9100/cycle"}],
+"catNotes":{"intl":"All four cards charge ~3.5% forex markup \u2014 SBI's 2.5% back offsets most of it, the others don't come close.","utilities":"Spark is the only one of your four that earns on utility bills.","fuel":"Nobody earns points on fuel \u2014 this ranking is purely the surcharge waiver."}};
+
+const LM_TIP = "Also stocked at Lifestyle / Max \u2014 buy it there and SBI SELECT earns 3.75% instead of the rate below.";
+
+/* ============ STATE ============ */
+let CARDS = [], OFFERS = [], CAT_NOTES = {}, BRANDS = [];
+let sparkBoost = false, currentCat = null, currentBrand = null;
+const liveCache = {};
+
+function mkRates(base, over){
+  const r = {};
+  CATS.forEach(c => r[c.id] = base);
+  return Object.assign(r, over || {});
+}
+
+function applyData(rates, brands){
+  CARDS = (rates.cards || []).map(c => Object.assign({}, c, {rates: mkRates(c.base, c.over)}));
+  OFFERS = rates.offers || [];
+  CAT_NOTES = rates.catNotes || {};
+  BRANDS = (brands && brands.brands) || [];
+  document.getElementById('lastUpd').textContent = rates.lastUpdated || 'unknown';
+}
+
+async function loadData(){
+  let rates = FALLBACK, brands = {brands: []};
+  try {
+    const r = await fetch('rates.json', {cache:'no-store'});
+    if (r.ok) rates = await r.json();
+  } catch(e){}
+  try {
+    const b = await fetch('brands.json', {cache:'no-store'});
+    if (b.ok) brands = await b.json();
+  } catch(e){}
+  applyData(rates, brands);
+  if (currentCat) render();
+}
+
+/* ============ ENGINE ============ */
+function effRate(card, catId){
+  let r = card.rates[catId] ?? 0;
+  if (card.boostable && sparkBoost && r > 0) r = r * 5;
+  return r;
+}
+function offerValue(o, amt){
+  if (o.type === 'flat')   return amt >= o.min ? o.off : 0;
+  if (o.type === 'pctcap') return amt >= (o.min||0) ? Math.min(amt * o.pct/100, o.cap) : 0;
+  if (o.type === 'bogo')   return Math.min(amt/2, o.cap);
+  if (o.type === 'waiver') return amt >= 400 ? Math.min(amt * 0.01, o.cap) : 0;
+  return 0;
+}
+function evaluate(catId, amt){
+  const rows = CARDS.map(card => {
+    const rate = effRate(card, catId);
+    const ptVal = amt * rate/100;
+    const offs = OFFERS.filter(o => o.card === card.id && o.cat === catId);
+    let offVal = 0; const active = [], locked = [];
+    offs.forEach(o => {
+      const v = offerValue(o, amt);
+      if (v > 0) { offVal += v; active.push(o); }
+      else if (o.min && amt < o.min) locked.push(o);
+    });
+    return {card, rate, ptVal, offVal, total: ptVal + offVal, active, locked,
+            warn: card.warn && card.warn[catId]};
+  });
+  rows.sort((a,b) => (b.total - a.total) || (b.rate - a.rate));
+  return rows;
+}
+function fmt(n){
+  const v = Math.round(n * 10) / 10;
+  return (v % 1 === 0 ? v.toFixed(0) : v.toFixed(1));
+}
+function reasonFor(row, catId){
+  const c = row.card;
+  const parts = [];
+  if (c.why && c.why[catId]) parts.push(c.why[catId]);
+  else if (row.rate > 0){
+    let s = row.rate + '% back in ' + c.pt;
+    if (c.boostable && sparkBoost && c.rates[catId] > 0) s += ' (5\u00D7 milestone active)';
+    else if (c.boostable && !sparkBoost && c.rates[catId] > 0) s += ' \u2014 becomes ' + (c.rates[catId]*5) + '% after \u20B910k this month';
+    parts.push(s);
+  } else parts.push('No points in this category');
+  row.active.forEach(o => parts.push(o.label));
+  return parts.join(' \u00B7 ');
+}
+
+/* ============ RENDER ============ */
+const $ = id => document.getElementById(id);
+
+function render(){
+  if (!currentCat || !CARDS.length) return;
+  const amt = Math.max(50, parseInt($('amount').value || '0', 10) || 0);
+  const cat = CATS.find(c => c.id === currentCat);
+  const rows = evaluate(cat.id, amt);
+  const w = rows[0];
+
+  $('r-cat').textContent = currentBrand ? currentBrand.n + ' \u00B7 ' + cat.label : cat.label;
+  $('r-amt').textContent = amt.toLocaleString('en-IN');
+
+  const viz = $('r-cardviz');
+  viz.style.background = 'linear-gradient(135deg,' + w.card.color + ',' + w.card.color2 + ')';
+  viz.classList.remove('cardviz'); void viz.offsetWidth; viz.classList.add('cardviz');
+  $('r-bank').textContent = w.card.bank;
+  $('r-name').textContent = w.card.name;
+  $('r-ptinfo').textContent = w.card.ptInfo;
+  $('r-val').textContent = fmt(w.total);
+  $('r-why').textContent = reasonFor(w, cat.id);
+
+  const codes = $('r-codes'); codes.innerHTML = '';
+  w.active.filter(o => o.code).forEach(o => {
+    const s = document.createElement('span');
+    s.className = 'code-pill'; s.textContent = 'code ' + o.code;
+    codes.appendChild(s);
+  });
+
+  const tips = $('r-tips'); tips.innerHTML = '';
+  if (currentBrand){
+    const t = currentBrand.tip || (currentBrand.lm ? LM_TIP : null);
+    if (t){
+      const d = document.createElement('div');
+      d.className = 'tipline'; d.textContent = '\u{1F4A1} ' + t;
+      tips.appendChild(d);
+    }
+    if (currentBrand.note){
+      const d = document.createElement('div');
+      d.className = 'tipline'; d.textContent = currentBrand.note;
+      tips.appendChild(d);
+    }
+  }
+
+  const warnBox = $('r-warn'); warnBox.innerHTML = '';
+  const notes = [];
+  if (CAT_NOTES[cat.id]) notes.push(CAT_NOTES[cat.id]);
+  if (w.warn) notes.push(w.warn);
+  w.locked.forEach(o => notes.push(w.card.name + ': ' + (o.type==='flat' ? '\u20B9'+o.off+' off' : 'offer') + ' unlocks at \u20B9' + o.min + '+'));
+  notes.forEach(t => {
+    const d = document.createElement('div');
+    d.className = 'warnline'; d.textContent = t;
+    warnBox.appendChild(d);
+  });
+
+  const oth = $('r-others'); oth.innerHTML = '';
+  rows.slice(1).forEach(r => {
+    const d = document.createElement('div'); d.className = 'other';
+    const lockedTxt = r.locked.map(o =>
+      (o.type==='flat' ? '\u20B9'+o.off+' off unlocks at \u20B9'+o.min+'+' : 'offer needs \u20B9'+o.min+'+')
+    ).join(' \u00B7 ');
+    d.innerHTML =
+      '<span class="dot" style="background:' + r.card.color + '"></span>' +
+      '<span class="nm">' + r.card.name + '</span>' +
+      '<span class="rs">' + reasonFor(r, cat.id) +
+        (lockedTxt ? '<span class="locked">' + lockedTxt + '</span>' : '') +
+      '</span>' +
+      '<span class="val">\u20B9' + fmt(r.total) + '</span>';
+    oth.appendChild(d);
+  });
+
+  const res = $('result');
+  res.classList.add('show');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  res.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'});
+}
+
+function pick(catId, brand){
+  currentCat = catId;
+  currentBrand = brand || null;
+  document.querySelectorAll('.chip').forEach(ch =>
+    ch.setAttribute('aria-pressed', (!brand && ch.dataset.cat === catId) ? 'true' : 'false'));
+  render();
+}
+
+/* ============ CHIPS ============ */
+function buildChips(){
+  const lm = $('chips-landmark'), rest = $('chips-rest');
+  CATS.filter(c => !c.hidden).forEach(c => {
+    const b = document.createElement('button');
+    b.className = 'chip'; b.dataset.cat = c.id;
+    b.setAttribute('aria-pressed','false');
+    b.innerHTML = '<span class="em">' + c.em + '</span>' + c.label;
+    b.addEventListener('click', () => pick(c.id));
+    (c.grp === 'lm' ? lm : rest).appendChild(b);
+  });
+}
+
+/* ============ SEARCH ============ */
+function catMatches(q){
+  return CATS.filter(c =>
+    c.label.toLowerCase().includes(q) ||
+    c.al.some(a => a.includes(q) || q.includes(a))
+  );
+}
+function brandMatches(q){
+  return BRANDS.filter(b =>
+    b.n.toLowerCase().includes(q) ||
+    (b.a || []).some(a => a.includes(q) || (q.length > 3 && q.includes(a)))
+  );
+}
+
+async function liveLookup(q, btn){
+  btn.disabled = true;
+  btn.innerHTML = '<span>\u23F3</span>Checking \u201C' + q + '\u201D\u2026';
+  const key = q.toLowerCase();
+  try {
+    let data = liveCache[key];
+    if (!data){
+      const r = await fetch('/api/lookup?q=' + encodeURIComponent(q));
+      if (!r.ok) throw new Error('lookup failed');
+      data = await r.json();
+      liveCache[key] = data;
+    }
+    const cat = CAT_IDS.includes(data.cat) ? data.cat : 'other';
+    closeSuggest(); $('q').value = '';
+    pick(cat, {n: data.label || q, lm: data.lm ? 1 : 0, tip: data.tip || null, note: data.note || null});
+  } catch(e){
+    btn.disabled = false;
+    btn.innerHTML = '<span>\u26A0\uFE0F</span>Lookup failed \u2014 tap a category below instead';
+  }
+}
+
+let suggestBox, qInput;
+function closeSuggest(){ suggestBox.classList.remove('open'); suggestBox.innerHTML=''; }
+
+function onQuery(){
+  const q = qInput.value.trim().toLowerCase();
+  suggestBox.innerHTML = '';
+  if (!q){ closeSuggest(); return; }
+
+  const cats = catMatches(q).slice(0,3);
+  const brs  = brandMatches(q).slice(0,4);
+
+  cats.forEach(c => {
+    const b = document.createElement('button');
+    b.innerHTML = '<span>' + c.em + '</span>' + c.label;
+    b.addEventListener('click', () => { qInput.value=''; closeSuggest(); pick(c.id); });
+    suggestBox.appendChild(b);
+  });
+  brs.forEach(br => {
+    const cat = CATS.find(c => c.id === br.c) || CATS.find(c => c.id === 'other');
+    const b = document.createElement('button');
+    b.innerHTML = '<span>\u{1F3F7}\uFE0F</span>' + br.n + '<span class="hint">' + cat.label + '</span>';
+    b.addEventListener('click', () => { qInput.value=''; closeSuggest(); pick(cat.id, br); });
+    suggestBox.appendChild(b);
+  });
+
+  if (!cats.length && !brs.length && q.length >= 3 && location.protocol !== 'file:'){
+    const b = document.createElement('button');
+    b.className = 'livebtn';
+    b.innerHTML = '<span>\u{1F50E}</span><span class="live">Look up \u201C' + qInput.value.trim() + '\u201D live</span>';
+    b.addEventListener('click', () => liveLookup(qInput.value.trim(), b));
+    suggestBox.appendChild(b);
+  }
+
+  if (suggestBox.children.length) suggestBox.classList.add('open');
+  else closeSuggest();
+}
+
+function buildSearch(){
+  qInput = $('q'); suggestBox = $('suggest');
+  qInput.addEventListener('input', onQuery);
+  qInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter'){
+      const first = suggestBox.querySelector('button');
+      if (first) first.click();
+    }
+    if (e.key === 'Escape') closeSuggest();
+  });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.searchbox')) closeSuggest();
+  });
+}
+
+/* ============ WIRING ============ */
+$('amount').addEventListener('input', render);
+document.querySelectorAll('.preset').forEach(p =>
+  p.addEventListener('click', () => { $('amount').value = p.dataset.amt; render(); }));
+$('sparkBoost').addEventListener('change', e => { sparkBoost = e.target.checked; render(); });
+
+applyData(FALLBACK, {brands: []});
+buildChips();
+buildSearch();
+loadData();
+</script>
+</body>
+</html>

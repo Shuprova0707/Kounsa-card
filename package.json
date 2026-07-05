@@ -1,0 +1,9 @@
+{
+  "name": "kounsa-card",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "update-rates": "node scripts/update.mjs"
+  }
+}
