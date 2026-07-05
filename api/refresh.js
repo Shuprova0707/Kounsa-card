@@ -103,7 +103,7 @@ STRICT OUTPUT RULES:
           body: JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }],
             tools: [{ google_search: {} }],
-            generationConfig: { temperature: 0.1, maxOutputTokens: 16384 }
+            generationConfig: { temperature: 0.1, maxOutputTokens: 16384, thinkingConfig: { thinkingBudget: 0 } }
           })
         }
       );
