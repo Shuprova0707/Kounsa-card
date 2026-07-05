@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kaunsa Card?</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d0e12">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kaunsa">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -116,6 +124,62 @@ h1 em{font-style:normal; color:var(--neo)}
 }
 .memchip .mc-star.on{color:#e8c877}
 .chips-fav .memchip{border-color:#4a3f22}
+
+.log-btn{
+  margin-top:14px; width:100%;
+  background:var(--panel2); border:1px solid var(--line); border-radius:12px;
+  color:var(--txt); padding:11px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;
+}
+.log-btn:active{transform:scale(.99)}
+.log-btn:disabled{cursor:default}
+.log-btn.done{border-color:#1d4a34; color:#8fe0b4; background:#0f2419}
+
+.dash{display:none; margin-top:30px}
+.dash.show{display:block}
+.dash-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px}
+.dash-head .group-label{margin:0}
+.dash-stats{display:flex; gap:10px}
+.dash-stats .stat{
+  flex:1; background:var(--panel); border:1px solid var(--line);
+  border-radius:14px; padding:12px 8px; text-align:center;
+}
+.stat-v{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:18px}
+.stat-l{color:var(--faint); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; margin-top:3px}
+
+.spark-milestone{
+  margin-top:12px; background:var(--panel); border:1px solid var(--line);
+  border-radius:14px; padding:12px 14px;
+}
+.spark-milestone.hit{border-color:#5e1114; background:#1c0d0e}
+.sm-top{display:flex; justify-content:space-between; gap:8px; font-size:13px; color:var(--dim)}
+.sm-top span:last-child{font-family:'JetBrains Mono',monospace; color:var(--txt); white-space:nowrap}
+.sm-bar{height:8px; border-radius:999px; background:var(--line); margin:9px 0 7px; overflow:hidden}
+.sm-fill{height:100%; width:0; background:var(--spark); border-radius:999px; transition:width .4s}
+.sm-note{font-size:12px; color:var(--faint)}
+.spark-milestone.hit .sm-note{color:#e6a987}
+
+.dash-cards{margin-top:12px; display:flex; flex-direction:column; gap:8px}
+.dcard{
+  display:flex; align-items:center; gap:10px;
+  background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:10px 13px;
+}
+.dcard .dc-name{font-weight:600; font-size:14px; white-space:nowrap}
+.dcard .dc-spend{margin-left:auto; color:var(--faint); font-size:12.5px; font-family:'JetBrains Mono',monospace}
+.dcard .dc-back{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:13.5px; white-space:nowrap}
+
+.dash-list{margin-top:12px; display:flex; flex-direction:column; gap:6px}
+.dentry{
+  display:flex; align-items:center; gap:9px;
+  background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:8px 11px; font-size:12.5px;
+}
+.dentry .de-dt{color:var(--faint); font-family:'JetBrains Mono',monospace; white-space:nowrap}
+.dentry .de-cat{color:var(--txt); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.dentry .de-amt{margin-left:auto; font-family:'JetBrains Mono',monospace; color:var(--dim); white-space:nowrap}
+.dentry .de-back{font-size:11.5px; white-space:nowrap}
+.dentry .de-del{
+  background:none; border:none; color:var(--faint); cursor:pointer; font-size:18px; line-height:1; padding:0 2px;
+}
+.dentry .de-del:hover{color:var(--txt)}
 
 #result{margin-top:26px; display:none}
 #result.show{display:block}
@@ -310,6 +374,7 @@ button:focus-visible,#q:focus-visible,.preset:focus-visible,.chip:focus-visible{
       <div class="codes" id="r-codes"></div>
     </div>
   </div>
+  <button id="logSpendBtn" class="log-btn" type="button">&#xFF0B; Log this spend</button>
   <div id="r-tips"></div>
   <div id="r-warn"></div>
   <div class="others" id="r-others"></div>
@@ -317,6 +382,25 @@ button:focus-visible,#q:focus-visible,.preset:focus-visible,.chip:focus-visible{
     <div class="lbl">Crossed <b>&#8377;10,000 on DBS Spark</b> this month? Unlocks 5&times; points on it.</div>
     <label class="switch"><input type="checkbox" id="sparkBoost"><span class="knob"></span></label>
   </div>
+</section>
+
+<section id="dash" class="dash" aria-live="polite">
+  <div class="dash-head">
+    <span class="group-label">This month &middot; <span id="dash-month"></span></span>
+    <button id="clearDash" class="mem-clear" type="button">reset</button>
+  </div>
+  <div class="dash-stats">
+    <div class="stat"><div class="stat-v" id="dash-spend">&#8377;0</div><div class="stat-l">spent</div></div>
+    <div class="stat"><div class="stat-v" id="dash-back">&#8377;0</div><div class="stat-l">est. back</div></div>
+    <div class="stat"><div class="stat-v" id="dash-count">0</div><div class="stat-l">swipes</div></div>
+  </div>
+  <div class="spark-milestone" id="dash-spark">
+    <div class="sm-top"><span>DBS Spark 5&times; milestone</span><span id="sm-amt"></span></div>
+    <div class="sm-bar"><div class="sm-fill" id="sm-fill"></div></div>
+    <div class="sm-note" id="sm-note"></div>
+  </div>
+  <div class="dash-cards" id="dash-cards"></div>
+  <div class="dash-list" id="dash-list"></div>
 </section>
 
 <footer>
@@ -745,6 +829,89 @@ async function refreshNow(mode, btn){
   }
 }
 
+/* ============ SPEND TRACKER + CASHBACK DASHBOARD (localStorage) ============ */
+const LS_SPENDS = 'kc_spends', SPARK_MILESTONE = 10000;
+function monthKey(ts){ const d = new Date(ts); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0'); }
+function curMonth(){ return monthKey(Date.now()); }
+
+function logSpend(){
+  if (!currentCat || !CARDS.length) return;
+  const amt = Math.max(50, parseInt($('amount').value || '0', 10) || 0);
+  const cat = CATS.find(c => c.id === currentCat);
+  const w = evaluate(cat.id, amt)[0];
+  const entry = {
+    ts: Date.now(), cat: cat.id,
+    catLabel: currentBrand ? currentBrand.n : cat.label,
+    amt, card: w.card.id, cardName: w.card.name, color: w.card.color,
+    back: Math.round(w.total * 10) / 10
+  };
+  const list = lsGet(LS_SPENDS); list.unshift(entry); lsSet(LS_SPENDS, list.slice(0, 300));
+  renderDash();
+  const b = $('logSpendBtn'); const o = b.innerHTML;
+  b.classList.add('done'); b.disabled = true; b.textContent = '\u2713 Logged';
+  setTimeout(() => { b.innerHTML = o; b.classList.remove('done'); b.disabled = false; }, 1400);
+}
+function delSpend(ts){ lsSet(LS_SPENDS, lsGet(LS_SPENDS).filter(e => e.ts !== ts)); renderDash(); }
+
+function renderDash(){
+  const m = curMonth();
+  const month = lsGet(LS_SPENDS).filter(e => monthKey(e.ts) === m);
+  const dash = $('dash');
+  if (!month.length){ dash.classList.remove('show'); return; }
+  dash.classList.add('show');
+
+  const totSpend = month.reduce((s, e) => s + e.amt, 0);
+  const totBack = month.reduce((s, e) => s + e.back, 0);
+  $('dash-month').textContent = new Date().toLocaleDateString('en-IN', {month: 'long', year: 'numeric'});
+  $('dash-spend').textContent = '\u20B9' + totSpend.toLocaleString('en-IN');
+  $('dash-back').textContent = '\u20B9' + fmt(totBack);
+  $('dash-count').textContent = month.length;
+
+  const sparkSpend = month.filter(e => e.card === 'spark').reduce((s, e) => s + e.amt, 0);
+  $('sm-amt').textContent = '\u20B9' + sparkSpend.toLocaleString('en-IN') + ' / \u20B910,000';
+  $('sm-fill').style.width = Math.min(100, sparkSpend / SPARK_MILESTONE * 100) + '%';
+  const smBox = $('dash-spark'), smNote = $('sm-note');
+  if (sparkSpend >= SPARK_MILESTONE){
+    smBox.classList.add('hit');
+    smNote.textContent = '\u2713 Crossed \u20B910k on Spark \u2014 flip the 5\u00D7 toggle above to see boosted picks.';
+  } else {
+    smBox.classList.remove('hit');
+    smNote.textContent = '\u20B9' + (SPARK_MILESTONE - sparkSpend).toLocaleString('en-IN') + ' more on Spark unlocks 5\u00D7 points.';
+  }
+
+  const byCard = {};
+  month.forEach(e => {
+    (byCard[e.card] = byCard[e.card] || {name: e.cardName, color: e.color, spend: 0, back: 0});
+    byCard[e.card].spend += e.amt; byCard[e.card].back += e.back;
+  });
+  const cardsWrap = $('dash-cards'); cardsWrap.innerHTML = '';
+  Object.values(byCard).sort((a, b) => b.back - a.back).forEach(c => {
+    const d = document.createElement('div'); d.className = 'dcard';
+    d.innerHTML =
+      '<span class="dot" style="background:' + c.color + '"></span>' +
+      '<span class="dc-name">' + c.name + '</span>' +
+      '<span class="dc-spend">\u20B9' + c.spend.toLocaleString('en-IN') + '</span>' +
+      '<span class="dc-back">\u20B9' + fmt(c.back) + ' back</span>';
+    cardsWrap.appendChild(d);
+  });
+
+  const listWrap = $('dash-list'); listWrap.innerHTML = '';
+  month.slice(0, 12).forEach(e => {
+    const row = document.createElement('div'); row.className = 'dentry';
+    const dt = new Date(e.ts).toLocaleDateString('en-IN', {day: 'numeric', month: 'short'});
+    row.innerHTML =
+      '<span class="de-dt">' + dt + '</span>' +
+      '<span class="de-cat">' + e.catLabel + '</span>' +
+      '<span class="de-amt">\u20B9' + e.amt.toLocaleString('en-IN') + '</span>' +
+      '<span class="de-back" style="color:' + e.color + '">' + e.cardName + ' \u00B7 \u20B9' + fmt(e.back) + '</span>';
+    const x = document.createElement('button');
+    x.type = 'button'; x.className = 'de-del'; x.setAttribute('aria-label', 'Remove entry'); x.textContent = '\u00D7';
+    x.addEventListener('click', () => delSpend(e.ts));
+    row.appendChild(x);
+    listWrap.appendChild(row);
+  });
+}
+
 /* ============ GOLD / SILVER STRIP ============ */
 async function loadMetals(){
   if (location.protocol === 'file:') return; // no serverless API when opened as a file
@@ -766,6 +933,14 @@ document.querySelectorAll('.preset').forEach(p =>
   p.addEventListener('click', () => { $('amount').value = p.dataset.amt; render(); }));
 $('sparkBoost').addEventListener('change', e => { sparkBoost = e.target.checked; render(); });
 $('clearRecent').addEventListener('click', () => { lsSet(LS_RECENT, []); renderMem(); });
+$('logSpendBtn').addEventListener('click', logSpend);
+$('clearDash').addEventListener('click', () => {
+  if (confirm('Clear this month\u2019s logged spends?')){
+    const m = curMonth();
+    lsSet(LS_SPENDS, lsGet(LS_SPENDS).filter(e => monthKey(e.ts) !== m));
+    renderDash();
+  }
+});
 if (location.protocol === 'file:') {
   $('refreshThinkBtn').style.display = 'none';
   $('refreshFastBtn').style.display = 'none';
@@ -778,8 +953,13 @@ applyData(FALLBACK, {brands: []});
 buildChips();
 buildSearch();
 renderMem();
+renderDash();
 loadData();
 loadMetals();
+
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
 </script>
 </body>
 </html>
