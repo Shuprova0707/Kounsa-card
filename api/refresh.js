@@ -109,8 +109,11 @@ STRICT OUTPUT RULES:
             tools: [{ google_search: {} }],
             generationConfig: {
               temperature: 0.1,
-              maxOutputTokens: 16384,
-              ...(think ? {} : { thinkingConfig: { thinkingBudget: 0 } })
+              // Think mode: cap reasoning and enlarge the budget so the
+              // <RATES> block still fits AFTER thinking (unlimited thinking
+              // was eating the whole budget and emitting nothing).
+              maxOutputTokens: think ? 32768 : 16384,
+              thinkingConfig: { thinkingBudget: think ? 8192 : 0 }
             }
           })
         }

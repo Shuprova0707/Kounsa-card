@@ -2,7 +2,7 @@
 // Network-first so live rates/brands stay fresh; falls back to cache when
 // offline. AI endpoints (/api/*) are never touched so they always run live.
 
-const CACHE = "kaunsa-v2";
+const CACHE = "kaunsa-v3";
 const SHELL = [
   "./",
   "./index.html",
