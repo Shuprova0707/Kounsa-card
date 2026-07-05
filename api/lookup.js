@@ -38,7 +38,8 @@ Return ONLY a JSON object, no markdown, with exactly these keys:
           generationConfig: {
             temperature: 0,
             maxOutputTokens: 400,
-            responseMimeType: "application/json"
+            responseMimeType: "application/json",
+            thinkingConfig: { thinkingBudget: 0 }
           }
         })
       }
