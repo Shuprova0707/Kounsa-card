@@ -189,6 +189,17 @@ h1 em{font-style:normal; color:var(--neo)}
 
 footer{margin-top:34px; color:var(--faint); font-size:12px; line-height:1.55}
 footer b{color:var(--dim)}
+.refresh-btn{
+  display:inline-flex; align-items:center; gap:5px; vertical-align:middle;
+  background:var(--panel2); border:1px solid var(--line); border-radius:999px;
+  color:var(--dim); padding:4px 10px; font-size:11.5px; cursor:pointer;
+  font-family:inherit; margin-left:3px;
+}
+.refresh-btn:active{transform:scale(.96)}
+.refresh-btn:disabled{opacity:.6; cursor:wait}
+.refresh-msg{display:block; margin-top:6px; font-size:11.5px; color:var(--dim)}
+.refresh-msg.ok{color:#8fe0b4}
+.refresh-msg.err{color:#e6a987}
 
 button:focus-visible,#q:focus-visible,.preset:focus-visible,.chip:focus-visible{
   outline:2px solid var(--txt); outline-offset:2px;
@@ -257,6 +268,8 @@ button:focus-visible,#q:focus-visible,.preset:focus-visible,.chip:focus-visible{
 
 <footer>
   Rates last updated: <b id="lastUpd">&hellip;</b> (auto-refreshed weekly).
+  <button id="refreshBtn" class="refresh-btn" type="button">&#x1F504; Refresh now</button>
+  <span id="refreshMsg" class="refresh-msg"></span>
   Assumes <b>Landmark Rewards SBI SELECT</b> and <b>DBS Spark5</b>.
   Unknown brands are looked up live via AI &mdash; double-check before big spends.
 </footer>
@@ -577,11 +590,41 @@ function buildSearch(){
   });
 }
 
+/* ============ ON-DEMAND REFRESH ============ */
+async function refreshNow(){
+  const btn = $('refreshBtn'), msg = $('refreshMsg');
+  if (btn.disabled) return;
+  const orig = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '\u23F3 Refreshing\u2026';
+  msg.className = 'refresh-msg';
+  msg.textContent = 'Checking current rates via AI \u2014 this can take up to a minute\u2026';
+  try {
+    const r = await fetch('/api/refresh', {method:'POST'});
+    const data = await r.json();
+    if (!r.ok || data.error) throw new Error(data.error || 'failed');
+    applyData(data, {brands: BRANDS});
+    if (currentCat) render();
+    msg.className = 'refresh-msg ok';
+    msg.textContent = '\u2713 Updated to ' + (data.lastUpdated || 'now') +
+      '. Shown for this session only \u2014 the weekly job saves changes permanently.';
+    btn.innerHTML = '\u2713 Refreshed';
+    setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 4000);
+  } catch(e){
+    msg.className = 'refresh-msg err';
+    msg.textContent = 'Refresh failed \u2014 keeping last known rates. Try again in a bit.';
+    btn.innerHTML = orig;
+    btn.disabled = false;
+  }
+}
+
 /* ============ WIRING ============ */
 $('amount').addEventListener('input', render);
 document.querySelectorAll('.preset').forEach(p =>
   p.addEventListener('click', () => { $('amount').value = p.dataset.amt; render(); }));
 $('sparkBoost').addEventListener('change', e => { sparkBoost = e.target.checked; render(); });
+if (location.protocol === 'file:') $('refreshBtn').style.display = 'none';
+else $('refreshBtn').addEventListener('click', refreshNow);
 
 applyData(FALLBACK, {brands: []});
 buildChips();
