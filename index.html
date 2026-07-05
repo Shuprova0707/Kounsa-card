@@ -203,6 +203,17 @@ footer b{color:var(--dim)}
 .refresh-msg.ok{color:#8fe0b4}
 .refresh-msg.err{color:#e6a987}
 
+.metals-strip{
+  display:none; align-items:center; gap:14px; flex-wrap:wrap;
+  margin:2px 0 16px; padding:8px 12px;
+  background:var(--panel2); border:1px solid var(--line); border-radius:12px;
+  font-size:12.5px; color:var(--dim);
+}
+.metals-strip.show{display:flex}
+.metals-strip .m-item{display:inline-flex; align-items:baseline; gap:5px}
+.metals-strip .m-item b{color:var(--txt); font-size:13.5px}
+.metals-strip .m-lbl{color:var(--faint); font-size:11px; text-transform:uppercase; letter-spacing:.4px}
+.metals-strip .m-as{margin-left:auto; color:var(--faint); font-size:11px}
 button:focus-visible,#q:focus-visible,.preset:focus-visible,.chip:focus-visible{
   outline:2px solid var(--txt); outline-offset:2px;
 }
@@ -221,6 +232,13 @@ button:focus-visible,#q:focus-visible,.preset:focus-visible,.chip:focus-visible{
   <h1>Kaunsa <em>Card?</em></h1>
   <p class="tagline">Type any store or brand. Swipe the winner.</p>
 </header>
+
+<div class="metals-strip" id="metals" title="Best-effort Bengaluru rates via AI &mdash; verify before big buys">
+  <span class="m-item"><span class="m-lbl">Gold 24K</span> <b>&#8377;<span id="m-gold24">&hellip;</span></b>/g</span>
+  <span class="m-item"><span class="m-lbl">Gold 22K</span> <b>&#8377;<span id="m-gold22">&hellip;</span></b>/g</span>
+  <span class="m-item"><span class="m-lbl">Silver</span> <b>&#8377;<span id="m-silver">&hellip;</span></b>/g</span>
+  <span class="m-as" id="m-as"></span>
+</div>
 
 <div class="amount-row">
   <div class="amount-field"><span>&#8377;</span><input id="amount" type="number" inputmode="numeric" min="50" step="50" value="2000" aria-label="Spend amount in rupees"></div>
@@ -635,6 +653,21 @@ async function refreshNow(mode, btn){
   }
 }
 
+/* ============ GOLD / SILVER STRIP ============ */
+async function loadMetals(){
+  if (location.protocol === 'file:') return; // no serverless API when opened as a file
+  try {
+    const r = await fetch('/api/metals');
+    const d = await r.json();
+    if (!r.ok || d.error) return; // silently stay hidden on failure
+    $('m-gold24').textContent = d.gold24.toLocaleString('en-IN');
+    $('m-gold22').textContent = d.gold22.toLocaleString('en-IN');
+    $('m-silver').textContent = d.silver.toLocaleString('en-IN');
+    $('m-as').textContent = d.city + ' \u00b7 ' + (d.asOf || 'today');
+    $('metals').classList.add('show');
+  } catch(_){ /* keep hidden */ }
+}
+
 /* ============ WIRING ============ */
 $('amount').addEventListener('input', render);
 document.querySelectorAll('.preset').forEach(p =>
@@ -652,6 +685,7 @@ applyData(FALLBACK, {brands: []});
 buildChips();
 buildSearch();
 loadData();
+loadMetals();
 </script>
 </body>
 </html>
