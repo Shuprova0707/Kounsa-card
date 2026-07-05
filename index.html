@@ -599,10 +599,12 @@ async function refreshNow(){
   btn.innerHTML = '\u23F3 Refreshing\u2026';
   msg.className = 'refresh-msg';
   msg.textContent = 'Checking current rates via AI \u2014 this can take up to a minute\u2026';
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 80000);
   try {
-    const r = await fetch('/api/refresh', {method:'POST'});
+    const r = await fetch('/api/refresh', {method:'POST', signal: ctrl.signal});
     const data = await r.json();
-    if (!r.ok || data.error) throw new Error(data.error || 'failed');
+    if (!r.ok || data.error) throw new Error(data.error || ('HTTP ' + r.status));
     applyData(data, {brands: BRANDS});
     if (currentCat) render();
     msg.className = 'refresh-msg ok';
@@ -611,10 +613,13 @@ async function refreshNow(){
     btn.innerHTML = '\u2713 Refreshed';
     setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 4000);
   } catch(e){
+    const why = e.name === 'AbortError' ? 'took too long (AI web-search)' : (e.message || 'failed');
     msg.className = 'refresh-msg err';
-    msg.textContent = 'Refresh failed \u2014 keeping last known rates. Try again in a bit.';
+    msg.textContent = 'Refresh failed (' + why + ') \u2014 keeping last known rates. Tap to try again.';
     btn.innerHTML = orig;
     btn.disabled = false;
+  } finally {
+    clearTimeout(timer);
   }
 }
 

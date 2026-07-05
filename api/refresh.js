@@ -92,23 +92,28 @@ STRICT OUTPUT RULES:
 - Set "lastUpdated" to "${today}".`;
 
   try {
-    const r = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${key}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          tools: [{ google_search: {} }],
-          generationConfig: { temperature: 0.1, maxOutputTokens: 16384 }
-        })
-      }
-    );
-
-    if (!r.ok) {
+    let r, geminiErr = "gemini error";
+    // One fast retry on transient upstream errors (429/500/503).
+    for (let attempt = 0; attempt < 2; attempt++) {
+      r = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${key}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            tools: [{ google_search: {} }],
+            generationConfig: { temperature: 0.1, maxOutputTokens: 16384 }
+          })
+        }
+      );
+      if (r.ok) break;
       const body = await r.text();
-      return res.status(502).json({ error: "gemini error", detail: body.slice(0, 300) });
+      geminiErr = `gemini ${r.status}: ${body.slice(0, 200)}`;
+      if (attempt === 0 && [429, 500, 502, 503].includes(r.status)) continue;
+      return res.status(502).json({ error: geminiErr });
     }
+    if (!r.ok) return res.status(502).json({ error: geminiErr });
 
     const data = await r.json();
     const text = data?.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("") || "";
