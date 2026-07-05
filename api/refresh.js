@@ -12,22 +12,36 @@ const CAT_IDS = [
   "zomato","myntra","online","grocery","travel","intl","fuel","utilities","other"
 ];
 
+// Drop anything the model invented that our UI can't use, so a single stray
+// category (e.g. "rent") doesn't sink the whole refresh. Structural problems
+// still hard-fail in validRates below.
+function sanitize(o) {
+  if (o && Array.isArray(o.cards)) {
+    for (const c of o.cards) {
+      if (c.over && typeof c.over === "object") {
+        for (const k of Object.keys(c.over)) {
+          if (!CAT_IDS.includes(k) || typeof c.over[k] !== "number" || c.over[k] < 0 || c.over[k] > 40) {
+            delete c.over[k];
+          }
+        }
+      }
+    }
+  }
+  if (o && Array.isArray(o.offers)) {
+    o.offers = o.offers.filter(f =>
+      ["flat","pctcap","bogo","waiver"].includes(f.type) && CAT_IDS.includes(f.cat));
+  }
+  return o;
+}
+
 function validRates(o) {
   if (!o || !Array.isArray(o.cards) || o.cards.length !== 4) return "cards must have 4 entries";
   const ids = o.cards.map(c => c.id).sort().join(",");
   if (ids !== "myzone,neo,sbi,spark") return "card ids changed";
   for (const c of o.cards) {
     if (typeof c.base !== "number" || c.base < 0 || c.base > 40) return `bad base on ${c.id}`;
-    for (const [k, v] of Object.entries(c.over || {})) {
-      if (!CAT_IDS.includes(k)) return `unknown category ${k} on ${c.id}`;
-      if (typeof v !== "number" || v < 0 || v > 40) return `bad rate ${k} on ${c.id}`;
-    }
   }
   if (!Array.isArray(o.offers)) return "offers missing";
-  for (const of_ of o.offers) {
-    if (!["flat","pctcap","bogo","waiver"].includes(of_.type)) return `bad offer type ${of_.type}`;
-    if (!CAT_IDS.includes(of_.cat)) return `bad offer cat ${of_.cat}`;
-  }
   return null;
 }
 
@@ -105,6 +119,7 @@ STRICT OUTPUT RULES:
     try { out = JSON.parse(raw); }
     catch { return res.status(502).json({ error: "unparseable rates output" }); }
 
+    out = sanitize(out);
     const err = validRates(out);
     if (err) return res.status(502).json({ error: "validation failed", detail: err });
 
