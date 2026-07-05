@@ -197,6 +197,8 @@ footer b{color:var(--dim)}
 }
 .refresh-btn:active{transform:scale(.96)}
 .refresh-btn:disabled{opacity:.6; cursor:wait}
+.refresh-btn.ok{border-color:#1d4a34; color:#8fe0b4; background:#0f2419}
+.refresh-btn.err{border-color:#5e2a1a; color:#e6a987; background:#241110}
 .refresh-msg{display:block; margin-top:6px; font-size:11.5px; color:var(--dim)}
 .refresh-msg.ok{color:#8fe0b4}
 .refresh-msg.err{color:#e6a987}
@@ -268,7 +270,8 @@ button:focus-visible,#q:focus-visible,.preset:focus-visible,.chip:focus-visible{
 
 <footer>
   Rates last updated: <b id="lastUpd">&hellip;</b> (auto-refreshed weekly).
-  <button id="refreshBtn" class="refresh-btn" type="button">&#x1F504; Refresh now</button>
+  <button id="refreshThinkBtn" class="refresh-btn" type="button">&#x1F9E0; Refresh (thorough)</button>
+  <button id="refreshFastBtn" class="refresh-btn" type="button">&#x26A1; Fast refresh</button>
   <span id="refreshMsg" class="refresh-msg"></span>
   Assumes <b>Landmark Rewards SBI SELECT</b> and <b>DBS Spark5</b>.
   Unknown brands are looked up live via AI &mdash; double-check before big spends.
@@ -591,18 +594,23 @@ function buildSearch(){
 }
 
 /* ============ ON-DEMAND REFRESH ============ */
-async function refreshNow(){
-  const btn = $('refreshBtn'), msg = $('refreshMsg');
+async function refreshNow(mode, btn){
+  const think = mode === 'think';
+  const other = think ? $('refreshFastBtn') : $('refreshThinkBtn');
+  const msg = $('refreshMsg');
   if (btn.disabled) return;
   const orig = btn.innerHTML;
-  btn.disabled = true;
+  btn.disabled = true; other.disabled = true;
+  btn.classList.remove('ok', 'err'); other.classList.remove('ok', 'err');
   btn.innerHTML = '\u23F3 Refreshing\u2026';
   msg.className = 'refresh-msg';
-  msg.textContent = 'Checking current rates via AI \u2014 this can take up to a minute\u2026';
+  msg.textContent = think
+    ? 'Letting the AI reason & web-search \u2014 this can take up to a minute\u2026'
+    : 'Fast check via AI (thinking off) \u2014 about 15 seconds\u2026';
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), 80000);
   try {
-    const r = await fetch('/api/refresh', {method:'POST', signal: ctrl.signal});
+    const r = await fetch('/api/refresh?mode=' + mode, {method:'POST', signal: ctrl.signal});
     const data = await r.json();
     if (!r.ok || data.error) throw new Error(data.error || ('HTTP ' + r.status));
     applyData(data, {brands: BRANDS});
@@ -610,14 +618,18 @@ async function refreshNow(){
     msg.className = 'refresh-msg ok';
     msg.textContent = '\u2713 Updated to ' + (data.lastUpdated || 'now') +
       '. Shown for this session only \u2014 the weekly job saves changes permanently.';
-    btn.innerHTML = '\u2713 Refreshed';
-    setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 4000);
+    btn.classList.add('ok');
+    btn.innerHTML = '\u2713 Updated';
+    setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('ok'); btn.disabled = false; other.disabled = false; }, 5000);
   } catch(e){
     const why = e.name === 'AbortError' ? 'took too long (AI web-search)' : (e.message || 'failed');
     msg.className = 'refresh-msg err';
-    msg.textContent = 'Refresh failed (' + why + ') \u2014 keeping last known rates. Tap to try again.';
-    btn.innerHTML = orig;
-    btn.disabled = false;
+    msg.textContent = think
+      ? 'Thorough refresh failed (' + why + ') \u2014 try \u26A1 Fast refresh instead.'
+      : 'Refresh failed (' + why + ') \u2014 keeping last known rates. Tap to try again.';
+    btn.classList.add('err');
+    btn.innerHTML = '\u2717 Failed';
+    setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('err'); btn.disabled = false; other.disabled = false; }, 5000);
   } finally {
     clearTimeout(timer);
   }
@@ -628,8 +640,13 @@ $('amount').addEventListener('input', render);
 document.querySelectorAll('.preset').forEach(p =>
   p.addEventListener('click', () => { $('amount').value = p.dataset.amt; render(); }));
 $('sparkBoost').addEventListener('change', e => { sparkBoost = e.target.checked; render(); });
-if (location.protocol === 'file:') $('refreshBtn').style.display = 'none';
-else $('refreshBtn').addEventListener('click', refreshNow);
+if (location.protocol === 'file:') {
+  $('refreshThinkBtn').style.display = 'none';
+  $('refreshFastBtn').style.display = 'none';
+} else {
+  $('refreshThinkBtn').addEventListener('click', e => refreshNow('think', e.currentTarget));
+  $('refreshFastBtn').addEventListener('click', e => refreshNow('fast', e.currentTarget));
+}
 
 applyData(FALLBACK, {brands: []});
 buildChips();

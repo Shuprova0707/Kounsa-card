@@ -54,6 +54,10 @@ export default async function handler(req, res) {
   const key = process.env.GEMINI_API_KEY;
   if (!key) return res.status(500).json({ error: "GEMINI_API_KEY not set in Vercel env vars" });
 
+  // ?mode=think lets Gemini reason (slower, up to ~55s). Anything else is fast
+  // mode: thinking disabled so it returns in ~15s.
+  const think = (req.query.mode || "").toString() === "think";
+
   // Baseline = the rates.json shipped with this deployment.
   const proto = (req.headers["x-forwarded-proto"] || "https").split(",")[0];
   const host = req.headers.host;
@@ -103,7 +107,11 @@ STRICT OUTPUT RULES:
           body: JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }],
             tools: [{ google_search: {} }],
-            generationConfig: { temperature: 0.1, maxOutputTokens: 16384, thinkingConfig: { thinkingBudget: 0 } }
+            generationConfig: {
+              temperature: 0.1,
+              maxOutputTokens: 16384,
+              ...(think ? {} : { thinkingConfig: { thinkingBudget: 0 } })
+            }
           })
         }
       );
