@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>RewardIQ</title>
+<title>RewardX</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d0e12">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="RewardIQ">
+<meta name="apple-mobile-web-app-title" content="RewardX">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -351,17 +351,26 @@ footer b{color:var(--dim)}
 .metals-strip .m-item b{color:var(--txt); font-size:13.5px}
 .metals-strip .m-lbl{color:var(--faint); font-size:11px; text-transform:uppercase; letter-spacing:.4px}
 .metals-strip .m-as{margin-left:auto; color:var(--faint); font-size:11px}
-.metals-strip .m-gold .m-lbl{color:#b99b4f}
-.metals-strip .m-gold b{color:#e8c877}
+.metals-strip .m-gold .m-lbl{color:#a8853c}
+/* Metallic gold: light-to-dark gradient clipped to the glyphs (flat
+   #e8c877 read as plain yellow). Glow uses drop-shadow because
+   text-shadow doesn't work with background-clip:text. */
+.metals-strip .m-gold b{
+  background:linear-gradient(180deg,#f9e9a8 0%,#e2b64d 48%,#a97b1e 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
 .metals-strip .m-silver .m-lbl{color:#8d93a5}
-.metals-strip .m-silver b{color:#d9dde8}
+.metals-strip .m-silver b{
+  background:linear-gradient(180deg,#f4f6fa 0%,#c3c9d6 48%,#878e9f 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
 @keyframes glowGold{
-  0%,100%{text-shadow:0 0 3px rgba(232,200,119,.25)}
-  50%{text-shadow:0 0 10px rgba(232,200,119,.85), 0 0 22px rgba(232,200,119,.35)}
+  0%,100%{filter:drop-shadow(0 0 2px rgba(212,165,50,.25))}
+  50%{filter:drop-shadow(0 0 6px rgba(255,196,80,.9)) drop-shadow(0 0 14px rgba(212,165,50,.4))}
 }
 @keyframes glowSilver{
-  0%,100%{text-shadow:0 0 3px rgba(217,221,232,.25)}
-  50%{text-shadow:0 0 10px rgba(217,221,232,.8), 0 0 22px rgba(217,221,232,.3)}
+  0%,100%{filter:drop-shadow(0 0 2px rgba(200,208,222,.25))}
+  50%{filter:drop-shadow(0 0 6px rgba(235,240,250,.85)) drop-shadow(0 0 14px rgba(200,208,222,.35))}
 }
 .metals-strip .m-glow-gold b{animation:glowGold 2.4s ease-in-out infinite}
 .metals-strip .m-glow-silver b{animation:glowSilver 2.4s ease-in-out infinite}
@@ -380,7 +389,7 @@ button:focus-visible,#q:focus-visible,.preset:focus-visible,.chip:focus-visible{
 <div class="wrap">
 
 <header>
-  <h1>Reward<em>IQ</em></h1>
+  <h1>Reward<em>X</em></h1>
   <p class="tagline">Type any store or brand. Swipe the winner.</p>
 </header>
 
