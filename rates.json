@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-05",
+  "lastUpdated": "2026-07-13",
   "cards": [
     {
       "id": "sbi",
@@ -11,8 +11,15 @@
       "ptInfo": "1 RP = ₹0.25",
       "base": 0.5,
       "over": {
-        "homecentre": 3.75, "lifestyle": 3.75, "max": 3.75, "spar": 3.75, "landmarkx": 3.75,
-        "dining": 2.5, "movies": 2.5, "intl": 2.5, "fuel": 0
+        "homecentre": 3.75,
+        "lifestyle": 3.75,
+        "max": 3.75,
+        "spar": 3.75,
+        "landmarkx": 3.75,
+        "dining": 2.5,
+        "movies": 2.5,
+        "intl": 2.5,
+        "fuel": 0
       },
       "why": {
         "homecentre": "15 RP per ₹100 at Landmark stores",
@@ -40,10 +47,14 @@
       "pt": "EDGE",
       "ptInfo": "1 EDGE = ₹0.20",
       "base": 0.4,
-      "over": { "fuel": 0, "movies": 0, "utilities": 0 },
+      "over": {
+        "fuel": 0,
+        "movies": 0,
+        "utilities": 0
+      },
       "why": {
         "movies": "No points on movies — but BOGO offer below",
-        "utilities": "Utilities, rent, wallet, insurance, education, govt — all excluded",
+        "utilities": "Utilities, rent, wallet, insurance, jewellery, education, government institutions, EMI transactions — all excluded from earning reward points.",
         "fuel": "No points — surcharge waiver only"
       },
       "warn": {}
@@ -57,9 +68,12 @@
       "pt": "EDGE",
       "ptInfo": "1 EDGE = ₹0.20",
       "base": 0.1,
-      "over": { "fuel": 0, "utilities": 0 },
+      "over": {
+        "fuel": 0,
+        "utilities": 0
+      },
       "why": {
-        "utilities": "Utilities, telecom, rent, wallet, insurance, education, govt — all excluded",
+        "utilities": "Utilities, telecom, rent, wallet, insurance, education, government institutions, EMI transactions — all excluded from earning reward points.",
         "fuel": "No points — surcharge waiver only"
       },
       "warn": {}
@@ -73,46 +87,126 @@
       "pt": "CP",
       "ptInfo": "1 CP = ₹0.20",
       "base": 0.2,
-      "over": { "fuel": 0 },
+      "over": {
+        "fuel": 0
+      },
       "boostable": true,
-      "why": { "fuel": "No points — surcharge waiver only" },
+      "why": {
+        "fuel": "No points — surcharge waiver only"
+      },
       "warn": {
         "other": "Spark gives nothing on rent, wallet loads, jewellery, EMI — those stay at 0."
       }
     }
   ],
   "offers": [
-    { "card": "myzone", "cat": "swiggy", "type": "flat", "off": 120, "min": 500,
-      "code": "AXIS120", "label": "₹120 off · min ₹500 · 2×/month" },
-    { "card": "myzone", "cat": "movies", "type": "bogo", "cap": 200,
-      "code": "AXIS200", "label": "Buy 1 Get 1 ticket on District · up to ₹200 · 1×/month" },
-    { "card": "myzone", "cat": "dining", "type": "pctcap", "pct": 15, "cap": 500, "min": 1500,
-      "label": "15% off up to ₹500 at EazyDiner partner restaurants (min ₹1,500)" },
-    { "card": "myzone", "cat": "travel", "type": "pctcap", "pct": 7, "cap": 2000, "min": 0,
-      "label": "Axis Travel EDGE portal: 7% off flights (≤₹2,000) / 18% hotels (≤₹4,000) · 1×/month" },
-    { "card": "myzone", "cat": "fuel", "type": "waiver", "cap": 400,
-      "label": "1% fuel surcharge waived · ₹400–₹4,000 txns · up to ₹400/cycle" },
-
-    { "card": "neo", "cat": "zomato", "type": "flat", "off": 120, "min": 499,
-      "code": "AXISNEO", "label": "₹120 off · min ₹499 · 2×/month" },
-    { "card": "neo", "cat": "myntra", "type": "flat", "off": 150, "min": 999,
-      "label": "₹150 off on select styles · min ₹999" },
-    { "card": "neo", "cat": "movies", "type": "pctcap", "pct": 10, "cap": 100, "min": 0,
-      "label": "10% off on BookMyShow · up to ₹100/month" },
-    { "card": "neo", "cat": "dining", "type": "pctcap", "pct": 15, "cap": 500, "min": 1500,
-      "label": "Dining Delights: 15% off up to ₹500 (min ₹1,500)" },
-    { "card": "neo", "cat": "travel", "type": "pctcap", "pct": 7, "cap": 2000, "min": 0,
-      "label": "Axis Travel EDGE portal: 7% off flights (≤₹2,000) / 18% hotels (≤₹4,000) · 1×/month" },
-    { "card": "neo", "cat": "fuel", "type": "waiver", "cap": 400,
-      "label": "1% fuel surcharge waived · ₹400–₹4,000 txns · up to ₹400/month" },
-
-    { "card": "spark", "cat": "movies", "type": "bogo", "cap": 200,
-      "label": "Buy 1 Get 1 ticket on BookMyShow · up to ₹200 · 1×/month" },
-    { "card": "spark", "cat": "fuel", "type": "waiver", "cap": 100,
-      "label": "1% fuel surcharge waived · up to ₹100" },
-
-    { "card": "sbi", "cat": "fuel", "type": "waiver", "cap": 100,
-      "label": "1% fuel surcharge waived · up to ₹100/cycle" }
+    {
+      "card": "myzone",
+      "cat": "swiggy",
+      "type": "flat",
+      "off": 120,
+      "min": 500,
+      "code": "AXIS120",
+      "label": "₹120 off · min ₹500 · 2×/month"
+    },
+    {
+      "card": "myzone",
+      "cat": "movies",
+      "type": "bogo",
+      "cap": 200,
+      "code": "AXIS200",
+      "label": "Buy 1 Get 1 ticket on District · up to ₹200 · 1×/month"
+    },
+    {
+      "card": "myzone",
+      "cat": "dining",
+      "type": "pctcap",
+      "pct": 15,
+      "cap": 500,
+      "min": 2500,
+      "label": "15% off up to ₹500 at EazyDiner partner restaurants (min ₹2,500)"
+    },
+    {
+      "card": "myzone",
+      "cat": "travel",
+      "type": "pctcap",
+      "pct": 7,
+      "cap": 2000,
+      "min": 0,
+      "label": "Cleartrip: 7% off flights (≤₹2,000) / 18% hotels (≤₹4,000) · 1×/month · Code: CTAXISMYZONE"
+    },
+    {
+      "card": "myzone",
+      "cat": "fuel",
+      "type": "waiver",
+      "cap": 400,
+      "label": "1% fuel surcharge waived · ₹400–₹4,000 txns · up to ₹400/cycle"
+    },
+    {
+      "card": "neo",
+      "cat": "zomato",
+      "type": "flat",
+      "off": 120,
+      "min": 499,
+      "code": "AXISNEO",
+      "label": "₹120 off · min ₹499 · 2×/month"
+    },
+    {
+      "card": "neo",
+      "cat": "myntra",
+      "type": "flat",
+      "off": 150,
+      "min": 999,
+      "label": "₹150 off on select styles · min ₹999"
+    },
+    {
+      "card": "neo",
+      "cat": "movies",
+      "type": "pctcap",
+      "pct": 10,
+      "cap": 100,
+      "min": 0,
+      "label": "10% off on BookMyShow · up to ₹100/month"
+    },
+    {
+      "card": "neo",
+      "cat": "dining",
+      "type": "pctcap",
+      "pct": 15,
+      "cap": 500,
+      "min": 1500,
+      "label": "Dining Delights: 15% off up to ₹500 (min ₹1,500)"
+    },
+    {
+      "card": "neo",
+      "cat": "fuel",
+      "type": "waiver",
+      "cap": 400,
+      "label": "1% fuel surcharge waived · ₹400–₹4,000 txns · up to ₹400/month"
+    },
+    {
+      "card": "spark",
+      "cat": "movies",
+      "type": "bogo",
+      "cap": 200,
+      "label": "Buy 1 Get 1 ticket on BookMyShow · up to ₹200 · 1×/month"
+    },
+    {
+      "card": "spark",
+      "cat": "fuel",
+      "type": "waiver",
+      "cap": 100,
+      "label": "1% fuel surcharge waived · up to ₹100/month"
+    },
+    {
+      "card": "spark",
+      "cat": "other",
+      "type": "pctcap",
+      "pct": 0.8,
+      "cap": 600,
+      "min": 10000,
+      "label": "Bonus 5X Cash Points (0.8% effective bonus) on monthly offline spends > ₹10,000, up to ₹600"
+    }
   ],
   "catNotes": {
     "intl": "All four cards charge ~3.5% forex markup — SBI's 2.5% back offsets most of it, the others don't come close.",
