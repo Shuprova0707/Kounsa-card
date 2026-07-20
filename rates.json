@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-13",
+  "lastUpdated": "2026-07-20",
   "cards": [
     {
       "id": "sbi",
@@ -153,14 +153,6 @@
     },
     {
       "card": "neo",
-      "cat": "myntra",
-      "type": "flat",
-      "off": 150,
-      "min": 999,
-      "label": "₹150 off on select styles · min ₹999"
-    },
-    {
-      "card": "neo",
       "cat": "movies",
       "type": "pctcap",
       "pct": 10,
@@ -183,6 +175,15 @@
       "type": "waiver",
       "cap": 400,
       "label": "1% fuel surcharge waived · ₹400–₹4,000 txns · up to ₹400/month"
+    },
+    {
+      "card": "neo",
+      "cat": "grocery",
+      "type": "pctcap",
+      "pct": 10,
+      "cap": 250,
+      "min": 750,
+      "label": "10% off on Blinkit · up to ₹250 · min ₹750 · 1×/month"
     },
     {
       "card": "spark",

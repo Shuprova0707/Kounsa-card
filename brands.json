@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-13",
+  "lastUpdated": "2026-07-20",
   "brands": [
     {
       "n": "Levi's",
@@ -1500,6 +1500,86 @@
       "a": [
         "urban company",
         "uc"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "PVR",
+      "a": [
+        "pvr cinemas"
+      ],
+      "c": "movies"
+    },
+    {
+      "n": "INOX",
+      "a": [
+        "inox cinemas"
+      ],
+      "c": "movies"
+    },
+    {
+      "n": "Licious",
+      "a": [
+        "licious"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "RedBus",
+      "a": [
+        "redbus"
+      ],
+      "c": "travel"
+    },
+    {
+      "n": "Wow Skin Science",
+      "a": [
+        "wow skin science",
+        "wow"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "Bombay Shaving Company",
+      "a": [
+        "bombay shaving company",
+        "bsc"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "Sugar Cosmetics",
+      "a": [
+        "sugar cosmetics",
+        "sugar"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "Furlenco",
+      "a": [
+        "furlenco"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "Spinny",
+      "a": [
+        "spinny"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "GoMechanic",
+      "a": [
+        "gomechanic"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "CRED",
+      "a": [
+        "cred"
       ],
       "c": "other"
     }
