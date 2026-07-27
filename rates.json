@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-20",
+  "lastUpdated": "2026-07-27",
   "cards": [
     {
       "id": "sbi",
@@ -11,22 +11,22 @@
       "ptInfo": "1 RP = ₹0.25",
       "base": 0.5,
       "over": {
-        "homecentre": 3.75,
-        "lifestyle": 3.75,
-        "max": 3.75,
-        "spar": 3.75,
-        "landmarkx": 3.75,
+        "homecentre": 2.5,
+        "lifestyle": 2.5,
+        "max": 2.5,
+        "spar": 2.5,
+        "landmarkx": 2.5,
         "dining": 2.5,
         "movies": 2.5,
         "intl": 2.5,
         "fuel": 0
       },
       "why": {
-        "homecentre": "15 RP per ₹100 at Landmark stores",
-        "lifestyle": "15 RP per ₹100 at Landmark stores",
-        "max": "15 RP per ₹100 at Landmark stores",
-        "spar": "15 RP per ₹100 at Landmark stores",
-        "landmarkx": "15 RP per ₹100 at Landmark stores",
+        "homecentre": "10 RP per ₹100 at Landmark stores",
+        "lifestyle": "10 RP per ₹100 at Landmark stores",
+        "max": "10 RP per ₹100 at Landmark stores",
+        "spar": "10 RP per ₹100 at Landmark stores",
+        "landmarkx": "10 RP per ₹100 at Landmark stores",
         "dining": "10 RP per ₹100 on dining",
         "movies": "10 RP per ₹100 on movies",
         "intl": "10 RP per ₹100 on international spends",
@@ -115,7 +115,7 @@
       "type": "bogo",
       "cap": 200,
       "code": "AXIS200",
-      "label": "Buy 1 Get 1 ticket on District · up to ₹200 · 1×/month"
+      "label": "Buy 1 Get 1 ticket on District by Zomato · up to ₹200 · 1×/month"
     },
     {
       "card": "myzone",
@@ -141,6 +141,15 @@
       "type": "waiver",
       "cap": 400,
       "label": "1% fuel surcharge waived · ₹400–₹4,000 txns · up to ₹400/cycle"
+    },
+    {
+      "card": "myzone",
+      "cat": "other",
+      "type": "pctcap",
+      "pct": 0.133,
+      "cap": 200,
+      "min": 150000,
+      "label": "1,000 EDGE REWARD Points on annual spends of ₹1.5 lakhs"
     },
     {
       "card": "neo",
@@ -184,6 +193,24 @@
       "cap": 250,
       "min": 750,
       "label": "10% off on Blinkit · up to ₹250 · min ₹750 · 1×/month"
+    },
+    {
+      "card": "neo",
+      "cat": "travel",
+      "type": "pctcap",
+      "pct": 7,
+      "cap": 2000,
+      "min": 0,
+      "label": "Cleartrip: 7% off flights (≤₹2,000) / 18% hotels (≤₹4,000) · 1×/month · Code: CTAXISNEO"
+    },
+    {
+      "card": "neo",
+      "cat": "utilities",
+      "type": "pctcap",
+      "pct": 5,
+      "cap": 150,
+      "min": 299,
+      "label": "5% off on Paytm utilities (mobile, broadband, DTH) · up to ₹150/month · min ₹299"
     },
     {
       "card": "spark",

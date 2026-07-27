@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-20",
+  "lastUpdated": "2026-07-27",
   "brands": [
     {
       "n": "Levi's",
@@ -1582,6 +1582,80 @@
         "cred"
       ],
       "c": "other"
+    },
+    {
+      "n": "PhonePe",
+      "a": [
+        "phonepe"
+      ],
+      "c": "utilities"
+    },
+    {
+      "n": "Google Pay",
+      "a": [
+        "google pay",
+        "gpay"
+      ],
+      "c": "utilities"
+    },
+    {
+      "n": "Dunzo",
+      "a": [
+        "dunzo"
+      ],
+      "c": "grocery"
+    },
+    {
+      "n": "Lulu Hypermarket",
+      "a": [
+        "lulu hypermarket",
+        "lulu"
+      ],
+      "c": "grocery"
+    },
+    {
+      "n": "JioCinema",
+      "a": [
+        "jiocinema"
+      ],
+      "c": "utilities"
+    },
+    {
+      "n": "Vistara",
+      "a": [
+        "vistara"
+      ],
+      "c": "travel"
+    },
+    {
+      "n": "Blue Dart",
+      "a": [
+        "blue dart"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Delhivery",
+      "a": [
+        "delhivery"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Apollo 24/7",
+      "a": [
+        "apollo 24/7",
+        "apollo247"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "Tira Beauty",
+      "a": [
+        "tira beauty",
+        "tira"
+      ],
+      "c": "online"
     }
   ]
 }
