@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-27",
+  "lastUpdated": "2026-08-03",
   "brands": [
     {
       "n": "Levi's",
@@ -1656,6 +1656,70 @@
         "tira"
       ],
       "c": "online"
+    },
+    {
+      "n": "Amul",
+      "a": [
+        "amul"
+      ],
+      "c": "grocery"
+    },
+    {
+      "n": "Maggi",
+      "a": [
+        "maggi"
+      ],
+      "c": "grocery"
+    },
+    {
+      "n": "Britannia",
+      "a": [
+        "britannia"
+      ],
+      "c": "grocery"
+    },
+    {
+      "n": "Dabur",
+      "a": [
+        "dabur"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Aashirvaad",
+      "a": [
+        "aashirvaad"
+      ],
+      "c": "grocery"
+    },
+    {
+      "n": "Parle-G",
+      "a": [
+        "parle-g",
+        "parle g"
+      ],
+      "c": "grocery"
+    },
+    {
+      "n": "Saffola",
+      "a": [
+        "saffola"
+      ],
+      "c": "grocery"
+    },
+    {
+      "n": "Godrej",
+      "a": [
+        "godrej"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Asian Paints",
+      "a": [
+        "asian paints"
+      ],
+      "c": "other"
     }
   ]
 }

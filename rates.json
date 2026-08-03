@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-27",
+  "lastUpdated": "2026-08-03",
   "cards": [
     {
       "id": "sbi",
@@ -11,22 +11,22 @@
       "ptInfo": "1 RP = ₹0.25",
       "base": 0.5,
       "over": {
-        "homecentre": 2.5,
-        "lifestyle": 2.5,
-        "max": 2.5,
-        "spar": 2.5,
-        "landmarkx": 2.5,
+        "homecentre": 3.75,
+        "lifestyle": 3.75,
+        "max": 3.75,
+        "spar": 3.75,
+        "landmarkx": 3.75,
         "dining": 2.5,
         "movies": 2.5,
         "intl": 2.5,
         "fuel": 0
       },
       "why": {
-        "homecentre": "10 RP per ₹100 at Landmark stores",
-        "lifestyle": "10 RP per ₹100 at Landmark stores",
-        "max": "10 RP per ₹100 at Landmark stores",
-        "spar": "10 RP per ₹100 at Landmark stores",
-        "landmarkx": "10 RP per ₹100 at Landmark stores",
+        "homecentre": "15 RP per ₹100 at Landmark stores",
+        "lifestyle": "15 RP per ₹100 at Landmark stores",
+        "max": "15 RP per ₹100 at Landmark stores",
+        "spar": "15 RP per ₹100 at Landmark stores",
+        "landmarkx": "15 RP per ₹100 at Landmark stores",
         "dining": "10 RP per ₹100 on dining",
         "movies": "10 RP per ₹100 on movies",
         "intl": "10 RP per ₹100 on international spends",
@@ -92,6 +92,7 @@
       },
       "boostable": true,
       "why": {
+        "base": "2 Cash Points per ₹200 spent on all eligible retail spends.",
         "fuel": "No points — surcharge waiver only"
       },
       "warn": {
@@ -100,6 +101,13 @@
     }
   ],
   "offers": [
+    {
+      "card": "sbi",
+      "cat": "fuel",
+      "type": "waiver",
+      "cap": 100,
+      "label": "1% fuel surcharge waived · ₹500–₹3,000 txns · up to ₹100/cycle"
+    },
     {
       "card": "myzone",
       "cat": "swiggy",
@@ -115,7 +123,7 @@
       "type": "bogo",
       "cap": 200,
       "code": "AXIS200",
-      "label": "Buy 1 Get 1 ticket on District by Zomato · up to ₹200 · 1×/month"
+      "label": "Buy 1 Get 1 ticket on District by Zomato · up to ₹200 · 1×/month (min spend ₹25,000 in previous 3 months, effective 01-11-2026)"
     },
     {
       "card": "myzone",
@@ -167,7 +175,7 @@
       "pct": 10,
       "cap": 100,
       "min": 0,
-      "label": "10% off on BookMyShow · up to ₹100/month"
+      "label": "10% off on BookMyShow · up to ₹100/month (min spend ₹25,000 in previous 3 months, effective 01-11-2026)"
     },
     {
       "card": "neo",
@@ -224,7 +232,7 @@
       "cat": "fuel",
       "type": "waiver",
       "cap": 100,
-      "label": "1% fuel surcharge waived · up to ₹100/month"
+      "label": "1% fuel surcharge waived · ₹500–₹5,000 txns · up to ₹100/month"
     },
     {
       "card": "spark",
