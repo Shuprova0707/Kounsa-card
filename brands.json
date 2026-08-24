@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-03",
+  "lastUpdated": "2026-08-24",
   "brands": [
     {
       "n": "Levi's",
@@ -1720,6 +1720,95 @@
         "asian paints"
       ],
       "c": "other"
+    },
+    {
+      "n": "Baby Shop",
+      "a": [
+        "baby shop"
+      ],
+      "c": "other",
+      "lm": 1
+    },
+    {
+      "n": "EasyBuy",
+      "a": [
+        "easybuy"
+      ],
+      "c": "other",
+      "lm": 1
+    },
+    {
+      "n": "Raymond",
+      "a": [
+        "raymond"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Go Colors",
+      "a": [
+        "go colors",
+        "go fashion"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Monte Carlo",
+      "a": [
+        "monte carlo"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Great Eastern Retail",
+      "a": [
+        "great eastern"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Prestige Smart Kitchen",
+      "a": [
+        "prestige smart kitchen",
+        "prestige"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Wonderchef",
+      "a": [
+        "wonderchef"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "Lakme",
+      "a": [
+        "lakme"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Himalaya Herbals",
+      "a": [
+        "himalaya herbals",
+        "himalaya"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Big Bazaar",
+      "a": [
+        "big bazaar"
+      ],
+      "c": "grocery"
+    },
+    {
+      "n": "Nestle",
+      "a": [
+        "nestle"
+      ],
+      "c": "grocery"
     }
   ]
 }

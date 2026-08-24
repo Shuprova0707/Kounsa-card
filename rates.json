@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-03",
+  "lastUpdated": "2026-08-24",
   "cards": [
     {
       "id": "sbi",
@@ -131,8 +131,8 @@
       "type": "pctcap",
       "pct": 15,
       "cap": 500,
-      "min": 2500,
-      "label": "15% off up to ₹500 at EazyDiner partner restaurants (min ₹2,500)"
+      "min": 1500,
+      "label": "15% off up to ₹500 at EazyDiner partner restaurants (min ₹1,500) · 2×/month"
     },
     {
       "card": "myzone",
@@ -175,7 +175,7 @@
       "pct": 10,
       "cap": 100,
       "min": 0,
-      "label": "10% off on BookMyShow · up to ₹100/month (min spend ₹25,000 in previous 3 months, effective 01-11-2026)"
+      "label": "10% off on BookMyShow · up to ₹100/month"
     },
     {
       "card": "neo",
@@ -209,7 +209,7 @@
       "pct": 7,
       "cap": 2000,
       "min": 0,
-      "label": "Cleartrip: 7% off flights (≤₹2,000) / 18% hotels (≤₹4,000) · 1×/month · Code: CTAXISNEO"
+      "label": "Cleartrip: 7% off flights (≤₹2,000) / 18% hotels (≤₹4,000) · 1×/month"
     },
     {
       "card": "neo",
