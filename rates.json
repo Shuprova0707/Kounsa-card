@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-24",
+  "lastUpdated": "2026-08-31",
   "cards": [
     {
       "id": "sbi",
@@ -54,7 +54,7 @@
       },
       "why": {
         "movies": "No points on movies — but BOGO offer below",
-        "utilities": "Utilities, rent, wallet, insurance, jewellery, education, government institutions, EMI transactions — all excluded from earning reward points.",
+        "utilities": "Utilities, rent, wallet, insurance, jewellery, education, government institutions, EMI transactions, Gift card purchases, Bridge Fees, Road Fees, and Tolls — all excluded from earning reward points.",
         "fuel": "No points — surcharge waiver only"
       },
       "warn": {}
@@ -73,7 +73,7 @@
         "utilities": 0
       },
       "why": {
-        "utilities": "Utilities, telecom, rent, wallet, insurance, education, government institutions, EMI transactions — all excluded from earning reward points.",
+        "utilities": "Utilities, telecom, rent, wallet, insurance, education, government institutions, EMI transactions, Gift Card, Bridge Fees, Road Fees & Toll — all excluded from earning reward points.",
         "fuel": "No points — surcharge waiver only"
       },
       "warn": {}
@@ -175,7 +175,7 @@
       "pct": 10,
       "cap": 100,
       "min": 0,
-      "label": "10% off on BookMyShow · up to ₹100/month"
+      "label": "10% off on BookMyShow · up to ₹100/month (min spend ₹25,000 in previous 3 months, effective 01-11-2026)"
     },
     {
       "card": "neo",

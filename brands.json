@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-24",
+  "lastUpdated": "2026-08-31",
   "brands": [
     {
       "n": "Levi's",
@@ -1809,6 +1809,65 @@
         "nestle"
       ],
       "c": "grocery"
+    },
+    {
+      "n": "Paper Boat",
+      "a": [
+        "paper boat"
+      ],
+      "c": "grocery"
+    },
+    {
+      "n": "Epigamia",
+      "a": [
+        "epigamia"
+      ],
+      "c": "grocery"
+    },
+    {
+      "n": "iD Fresh Food",
+      "a": [
+        "id fresh food",
+        "id fresh"
+      ],
+      "c": "grocery"
+    },
+    {
+      "n": "Plum Goodness",
+      "a": [
+        "plum goodness",
+        "plum"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "Dot & Key",
+      "a": [
+        "dot and key",
+        "dot & key"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "MCaffeine",
+      "a": [
+        "mcaffeine"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "Borosil",
+      "a": [
+        "borosil"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Hawkins",
+      "a": [
+        "hawkins"
+      ],
+      "c": "other"
     }
   ]
 }
