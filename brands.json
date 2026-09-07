@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-31",
+  "lastUpdated": "2026-09-07",
   "brands": [
     {
       "n": "Levi's",
@@ -137,16 +137,14 @@
       "a": [
         "vero moda"
       ],
-      "c": "other",
-      "lm": 1
+      "c": "other"
     },
     {
       "n": "ONLY",
       "a": [
         "only brand"
       ],
-      "c": "other",
-      "lm": 1
+      "c": "other"
     },
     {
       "n": "Jack & Jones",
@@ -154,48 +152,42 @@
         "jack and jones",
         "jack & jones"
       ],
-      "c": "other",
-      "lm": 1
+      "c": "other"
     },
     {
       "n": "Puma",
       "a": [
         "puma"
       ],
-      "c": "other",
-      "lm": 1
+      "c": "other"
     },
     {
       "n": "Adidas",
       "a": [
         "adidas"
       ],
-      "c": "other",
-      "lm": 1
+      "c": "other"
     },
     {
       "n": "Skechers",
       "a": [
         "skechers"
       ],
-      "c": "other",
-      "lm": 1
+      "c": "other"
     },
     {
       "n": "Crocs",
       "a": [
         "crocs"
       ],
-      "c": "other",
-      "lm": 1
+      "c": "other"
     },
     {
       "n": "Spykar",
       "a": [
         "spykar"
       ],
-      "c": "other",
-      "lm": 1
+      "c": "other"
     },
     {
       "n": "Zara",
@@ -1866,6 +1858,76 @@
       "n": "Hawkins",
       "a": [
         "hawkins"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Wrogn",
+      "a": [
+        "wrogn"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Roadster",
+      "a": [
+        "roadster"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "HRX",
+      "a": [
+        "hrx"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "Patanjali",
+      "a": [
+        "patanjali"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Mother Dairy",
+      "a": [
+        "mother dairy"
+      ],
+      "c": "grocery"
+    },
+    {
+      "n": "Cadbury",
+      "a": [
+        "cadbury"
+      ],
+      "c": "grocery"
+    },
+    {
+      "n": "Lay's",
+      "a": [
+        "lays"
+      ],
+      "c": "grocery"
+    },
+    {
+      "n": "Voltas",
+      "a": [
+        "voltas"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Havells",
+      "a": [
+        "havells"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Biotique",
+      "a": [
+        "biotique"
       ],
       "c": "other"
     }
