@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-14",
+  "lastUpdated": "2026-09-21",
   "brands": [
     {
       "n": "Levi's",
@@ -1928,6 +1928,77 @@
       "n": "Biotique",
       "a": [
         "biotique"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Chumbak",
+      "a": [
+        "chumbak"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Specsmakers",
+      "a": [
+        "specsmakers"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Archies",
+      "a": [
+        "archies"
+      ],
+      "c": "other"
+    },
+    {
+      "n": "Kwality Walls",
+      "a": [
+        "kwality walls"
+      ],
+      "c": "grocery"
+    },
+    {
+      "n": "Bikano",
+      "a": [
+        "bikano"
+      ],
+      "c": "dining"
+    },
+    {
+      "n": "Portronics",
+      "a": [
+        "portronics"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "Melorra",
+      "a": [
+        "melorra"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "Faballey",
+      "a": [
+        "fab alley",
+        "faballey"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "Indya",
+      "a": [
+        "indya"
+      ],
+      "c": "online"
+    },
+    {
+      "n": "Usha",
+      "a": [
+        "usha"
       ],
       "c": "other"
     }

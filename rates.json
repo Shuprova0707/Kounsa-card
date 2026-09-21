@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-14",
+  "lastUpdated": "2026-09-21",
   "cards": [
     {
       "id": "sbi",
@@ -73,7 +73,7 @@
         "utilities": 0
       },
       "why": {
-        "utilities": "Utilities, telecom, rent, wallet, insurance, education, government institutions, EMI transactions, Gift Card, Bridge Fees, Road Fees & Toll — all excluded from earning reward points.",
+        "utilities": "Utilities, telecom, rent (capped at INR 50,000 per month), wallet, government spends, insurance, gold & jewellery, fuel, cash advances and repayments — all excluded from earning reward points.",
         "fuel": "No points — surcharge waiver only"
       },
       "warn": {}
@@ -116,6 +116,15 @@
       "cap": 3000,
       "min": 300000,
       "label": "12,000 Bonus Reward Points (1% effective bonus) on annual retail spends of ₹3 lakhs"
+    },
+    {
+      "card": "sbi",
+      "cat": "landmarkx",
+      "type": "pctcap",
+      "pct": 2.4,
+      "cap": 600,
+      "min": 25000,
+      "label": "2,400 Bonus Reward Points (2.4% effective bonus) on annual spends of ₹25,000 at Landmark stores"
     },
     {
       "card": "myzone",
@@ -193,7 +202,7 @@
       "pct": 10,
       "cap": 100,
       "min": 0,
-      "label": "10% off on BookMyShow · up to ₹100/month (min spend ₹25,000 in previous 3 months, effective 01-11-2026)"
+      "label": "10% off on BookMyShow · up to ₹100/month"
     },
     {
       "card": "neo",
@@ -245,6 +254,28 @@
       "off": 150,
       "min": 999,
       "label": "₹150 off on Myntra (min ₹999) on select styles"
+    },
+    {
+      "card": "neo",
+      "cat": "travel",
+      "type": "pctcap",
+      "pct": 15,
+      "label": "Wednesday Delights: 15% off on MakeMyTrip (Flights/Hotels)"
+    },
+    {
+      "card": "neo",
+      "cat": "swiggy",
+      "type": "pctcap",
+      "pct": 10,
+      "label": "Wednesday Delights: 10% off on Swiggy"
+    },
+    {
+      "card": "neo",
+      "cat": "online",
+      "type": "pctcap",
+      "pct": 0,
+      "cap": 1000,
+      "label": "Wednesday Delights: Up to ₹1,000 off on Tira"
     },
     {
       "card": "spark",
