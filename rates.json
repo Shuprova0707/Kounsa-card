@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-21",
+  "lastUpdated": "2026-09-28",
   "cards": [
     {
       "id": "sbi",
@@ -22,6 +22,7 @@
         "fuel": 0
       },
       "why": {
+        "base": "2 RP per ₹100 on other retail purchases (excluding Fuel, Rental, Govt Spends, Gaming, Wallet, EMI).",
         "homecentre": "15 RP per ₹100 at Landmark stores",
         "lifestyle": "15 RP per ₹100 at Landmark stores",
         "max": "15 RP per ₹100 at Landmark stores",
@@ -33,9 +34,7 @@
         "fuel": "No points on fuel"
       },
       "warn": {
-        "utilities": "Bills usually count as non-retail — verify the 2 RP/₹100 actually posts on your statement once.",
-        "swiggy": "If Swiggy bills under dining, you may get 2.5% instead of 0.5% — check one statement.",
-        "zomato": "If Zomato bills under dining, you may get 2.5% instead of 0.5% — check one statement."
+        "utilities": "Utilities, rent, government spends, gaming, wallet, EMI transactions are excluded from earning reward points."
       }
     },
     {
@@ -54,7 +53,7 @@
       },
       "why": {
         "movies": "No points on movies — but BOGO offer below",
-        "utilities": "Utilities, rent, wallet, insurance, jewellery, education, government institutions, EMI transactions, Gift card purchases, Bridge Fees, Road Fees, and Tolls — all excluded from earning reward points.",
+        "utilities": "Movies, fuel, rent, insurance, utilities, jewellery, education, government institutions, wallet, EMI transactions, Gift card purchases, Bridge Fees, Road Fees, and Tolls — all excluded from earning reward points.",
         "fuel": "No points — surcharge waiver only"
       },
       "warn": {}
@@ -73,7 +72,7 @@
         "utilities": 0
       },
       "why": {
-        "utilities": "Utilities, telecom, rent (capped at INR 50,000 per month), wallet, government spends, insurance, gold & jewellery, fuel, cash advances and repayments — all excluded from earning reward points.",
+        "utilities": "Utilities, telecom, rent (capped at INR 50,000 per month), wallet, government spends, insurance, gold & jewellery, fuel, cash advances and repayments, Gift card purchases, Bridge Fees, Road Fees, and Tolls — all excluded from earning reward points.",
         "fuel": "No points — surcharge waiver only"
       },
       "warn": {}
@@ -96,7 +95,7 @@
         "fuel": "No points — surcharge waiver only"
       },
       "warn": {
-        "other": "Spark gives nothing on fuel, rent, wallet loads, jewellery, EMI, balance transfer, cash withdrawal, service charges, interest, late payment charges — those stay at 0."
+        "other": "Spark gives nothing on fuel, rent, wallet loads, jewellery, EMI, balance transfer, cash withdrawal, service charges, interest, late payment charges, Gift card purchases, Bridge Fees, Road Fees, and Tolls — those stay at 0."
       }
     }
   ],
@@ -127,6 +126,24 @@
       "label": "2,400 Bonus Reward Points (2.4% effective bonus) on annual spends of ₹25,000 at Landmark stores"
     },
     {
+      "card": "sbi",
+      "cat": "landmarkx",
+      "type": "pctcap",
+      "pct": 2.67,
+      "cap": 2000,
+      "min": 75000,
+      "label": "8,000 Bonus Reward Points (2.67% effective bonus) on annual spends of ₹75,000 at Landmark stores"
+    },
+    {
+      "card": "sbi",
+      "cat": "landmarkx",
+      "type": "pctcap",
+      "pct": 2,
+      "cap": 3000,
+      "min": 150000,
+      "label": "12,000 Bonus Reward Points (2% effective bonus) on annual spends of ₹1.5 lakhs at Landmark stores"
+    },
+    {
       "card": "myzone",
       "cat": "swiggy",
       "type": "flat",
@@ -149,8 +166,8 @@
       "type": "pctcap",
       "pct": 15,
       "cap": 500,
-      "min": 1500,
-      "label": "15% off up to ₹500 at EazyDiner partner restaurants (min ₹1,500) · 1×/month"
+      "min": 2500,
+      "label": "15% off up to ₹500 at EazyDiner partner restaurants (min ₹2,500) · 1×/month"
     },
     {
       "card": "myzone",
@@ -175,7 +192,7 @@
       "pct": 0.133,
       "cap": 200,
       "min": 150000,
-      "label": "1,000 EDGE REWARD Points on annual spends of ₹1.5 lakhs"
+      "label": "1,000 EDGE REWARD Points on annual spends of ₹1.5 lakhs (excluded spends: movies, fuel, insurance, utility, rent, jewelry, education, government institutions)"
     },
     {
       "card": "myzone",
@@ -202,7 +219,7 @@
       "pct": 10,
       "cap": 100,
       "min": 0,
-      "label": "10% off on BookMyShow · up to ₹100/month"
+      "label": "10% off on BookMyShow · up to ₹100/month (min spend ₹25,000 in previous 3 months, effective 01-11-2026)"
     },
     {
       "card": "neo",
