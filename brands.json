@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-28",
+  "lastUpdated": "2026-10-12",
   "brands": [
     {
       "n": "Levi's",
@@ -2001,6 +2001,13 @@
         "usha"
       ],
       "c": "other"
+    },
+    {
+      "n": "Parle",
+      "a": [
+        "parle"
+      ],
+      "c": "grocery"
     }
   ]
 }
